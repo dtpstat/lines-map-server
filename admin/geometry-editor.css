@@ -1,8 +1,7 @@
 .geometry-editor-help {
+  --admin-help-font-size: .68rem;
   flex: 0 0 auto;
   margin: -.15rem 0 .55rem;
-  color: var(--muted);
-  font-size: .68rem;
 }
 
 .geometry-editor-help > summary {
@@ -733,10 +732,7 @@
 }
 
 .geometry-import-conflicts-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: .7rem;
+  --admin-heading-gap: .7rem;
 }
 
 .geometry-import-conflicts-heading strong,

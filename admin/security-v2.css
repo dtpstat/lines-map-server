@@ -231,7 +231,10 @@ button.danger { background: #51211f; border-color: #8e3a36; color: #ffd0cc; }
 .security-secret-overlay[hidden] { display: none; }
 .security-secret-card { width: min(34rem,100%); padding: 1.2rem; border: 1px solid #3d716e; border-radius: 14px; background: #0d171a; box-shadow: 0 1rem 4rem rgb(0 0 0 / 50%); }
 .security-secret-value { display: block; margin: 1rem 0; padding: 1rem; border: 1px dashed #4e8883; border-radius: 8px; text-align: center; font-size: 1.25rem; letter-spacing: .06em; user-select: all; }
-.security-secret-actions { display: flex; gap: .5rem; margin-bottom: .7rem; }
+.security-secret-actions {
+  --admin-actions-gap: .5rem;
+  margin-bottom: .7rem;
+}
 
 #security-panel-audit:not([hidden]) {
   min-height: 0;
@@ -283,7 +286,10 @@ button.danger { background: #51211f; border-color: #8e3a36; color: #ffd0cc; }
   margin: 0;
 }
 .security-audit-filter label { display: grid; gap: .2rem; }
-.security-filter-actions { display: flex; gap: .4rem; align-items: end; }
+.security-filter-actions {
+  --admin-actions-gap: .4rem;
+  align-items: end;
+}
 .security-filter-actions button { padding: .48rem .6rem; }
 .security-audit-table-wrap {
   --admin-table-wrap-radius: 10px;

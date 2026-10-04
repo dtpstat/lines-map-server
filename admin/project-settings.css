@@ -177,12 +177,6 @@
   max-width: 22rem;
 }
 
-.project-history-speeds-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-}
 
 .project-history-speeds-heading button {
   width: auto;

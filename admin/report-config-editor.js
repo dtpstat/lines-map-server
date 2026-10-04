@@ -29,7 +29,7 @@ if (
   )
 ) {
   host.innerHTML = `
-    <div class="mode-heading">
+    <div class="mode-heading admin-heading admin-heading--compact admin-heading--responsive">
       <div>
         <h4>Материализованный отчёт по городам</h4>
         <p>После сохранения значения пересчитываются в CITY_REPORT_VALUES. Публичная таблица и CSV используют подготовленные значения.</p>
@@ -83,7 +83,7 @@ if (
   };
 
   viewHosts.metrics.innerHTML = `
-    <div class="report-section-heading">
+    <div class="report-section-heading admin-heading admin-heading--compact admin-heading--responsive">
       <div>
         <h5>Расчётные метрики</h5>
         <p>Метрика может использовать поля города, агрегаты геометрий и уже определённые метрики. Зависимости пересчитываются автоматически; циклы запрещены. Карточки и операции можно переставлять ↑/↓.</p>
@@ -96,7 +96,7 @@ if (
   `;
 
   viewHosts.table.innerHTML = `
-    <div class="report-section-heading">
+    <div class="report-section-heading admin-heading admin-heading--compact admin-heading--responsive">
       <div>
         <h5>Публичная таблица</h5>
         <p>Порядок, подписи, формат чисел и условное оформление диапазонов. Диапазоны задаются в отображаемых единицах после масштаба.</p>
@@ -110,7 +110,7 @@ if (
   `;
 
   viewHosts.csv.innerHTML = `
-    <div class="report-section-heading">
+    <div class="report-section-heading admin-heading admin-heading--compact admin-heading--responsive">
       <div>
         <h5>CSV</h5>
         <p>Независимый набор колонок статического /bus-lanes.csv. Экранное условное форматирование в CSV не переносится.</p>
@@ -124,7 +124,7 @@ if (
   `;
 
   viewHosts.rank.innerHTML = `
-    <div class="report-section-heading">
+    <div class="report-section-heading admin-heading admin-heading--compact admin-heading--responsive">
       <div>
         <h5>Рейтинг</h5>
         <p>Критерии применяются последовательно сверху вниз внутри каждой категории городов: сначала первый, при равенстве — второй и так далее. Последний резервный критерий всегда — название города.</p>
@@ -591,7 +591,7 @@ if (form) {
       );
 
       const header = document.createElement('div');
-      header.className = 'report-card-heading';
+      header.className = 'report-card-heading admin-heading admin-heading--compact admin-heading--responsive';
       const title = document.createElement('div');
       const nameLabel = document.createElement('label');
       nameLabel.textContent = 'Название метрики';
@@ -674,7 +674,7 @@ if (form) {
       body.append(source);
 
       const operationsHeading = document.createElement('div');
-      operationsHeading.className = 'report-subheading';
+      operationsHeading.className = 'report-subheading admin-heading admin-heading--compact admin-heading--responsive';
       const operationsTitle = document.createElement('strong');
       operationsTitle.textContent = 'Арифметика и приоритет';
       const addOperation = document.createElement('button');

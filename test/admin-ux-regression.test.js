@@ -1029,3 +1029,92 @@ test('shared UI refactor leaves no empty compatibility selectors or duplicate pa
     /\.osm-boundary-primary-actions button\s*\{[^}]*flex:\s*1 1 0/u,
   );
 });
+
+
+test('final UI reuse audit keeps dynamic headings help and actions on shared primitives', async () => {
+  const [
+    html,
+    project,
+    projectCss,
+    report,
+    reportCss,
+    security,
+    securityCss,
+    geometryCss,
+    osmCss,
+  ] = await Promise.all([
+    read('admin/index.html'),
+    read('admin/project-settings-editor.js'),
+    read('admin/project-settings.css'),
+    read('admin/report-config-editor.js'),
+    read('admin/report-config.css'),
+    read('admin/security-editor-v2.js'),
+    read('admin/security-v2.css'),
+    read('admin/geometry-editor.css'),
+    read('admin/osm-boundary-editor.css'),
+  ]);
+
+  assert.match(
+    report,
+    /mode-heading admin-heading admin-heading--compact admin-heading--responsive/u,
+  );
+  assert.match(
+    report,
+    /report-section-heading admin-heading admin-heading--compact admin-heading--responsive/u,
+  );
+  assert.match(
+    report,
+    /report-card-heading admin-heading admin-heading--compact admin-heading--responsive/u,
+  );
+  assert.match(
+    report,
+    /report-subheading admin-heading admin-heading--compact admin-heading--responsive/u,
+  );
+  assert.doesNotMatch(
+    reportCss,
+    /\.report-section-heading\s*,[\s\S]*?display:\s*flex/u,
+  );
+
+  assert.match(
+    html,
+    /geometry-import-conflicts-heading admin-heading admin-heading--center admin-heading--compact admin-heading--responsive/u,
+  );
+  assert.match(
+    html,
+    /geometry-editor-help admin-help/u,
+  );
+  assert.match(
+    html,
+    /osm-boundary-group-help admin-help/u,
+  );
+  assert.doesNotMatch(
+    geometryCss,
+    /\.geometry-editor-help\s*\{[^}]*color:\s*var\(--muted\)/u,
+  );
+  assert.doesNotMatch(
+    osmCss,
+    /\.osm-boundary-group-help\s*\{[^}]*color:\s*var\(--muted\)/u,
+  );
+
+  assert.match(
+    project,
+    /project-history-speeds-heading admin-heading admin-heading--center admin-heading--compact admin-heading--responsive/u,
+  );
+  assert.doesNotMatch(
+    projectCss,
+    /\.project-history-speeds-heading\s*\{[^}]*display:\s*flex/u,
+  );
+
+  assert.match(
+    security,
+    /security-filter-actions admin-actions admin-actions--compact/u,
+  );
+  assert.match(
+    security,
+    /security-secret-actions admin-actions/u,
+  );
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-filter-actions\s*\{[^}]*display:\s*flex/u,
+  );
+});

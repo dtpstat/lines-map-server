@@ -173,7 +173,7 @@ if (typeof document !== 'undefined') {
                   <small>Необязательно. Если пусто, начало определяется по самой ранней дате «С» / «По» опубликованных геометрий.</small>
                 </label>
 
-                <div class="project-history-speeds-heading">
+                <div class="project-history-speeds-heading admin-heading admin-heading--center admin-heading--compact admin-heading--responsive">
                   <strong>Скорости воспроизведения</strong>
                   <button type="button" class="secondary" id="project-history-speed-add">Добавить скорость</button>
                 </div>

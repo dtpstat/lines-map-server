@@ -261,7 +261,7 @@ if (
             <label>Статус <select name="status"><option value="">Все</option></select></label>
             <label>Пользователь <input name="username" type="text"></label>
             <label>IP <input name="ipAddress" type="text"></label>
-            <div class="security-filter-actions">
+            <div class="security-filter-actions admin-actions admin-actions--compact">
               <button type="submit">Применить</button>
               <button type="button" class="secondary" id="security-audit-reset">Сбросить</button>
             </div>
@@ -954,7 +954,7 @@ if (
         <h3>Временный пароль для ${username}</h3>
         <p>Пароль показывается только сейчас и в открытом виде не сохраняется.</p>
         <code class="security-secret-value"></code>
-        <div class="security-secret-actions">
+        <div class="security-secret-actions admin-actions">
           <button type="button" id="security-secret-copy">Копировать</button>
           <button type="button" class="secondary" id="security-secret-close">Закрыть</button>
         </div>
@@ -987,7 +987,7 @@ if (
         <h3>Новый Prometheus bearer token</h3>
         <p>Скопируйте token сейчас. После закрытия его plaintext больше получить нельзя.</p>
         <code class="security-secret-value"></code>
-        <div class="security-secret-actions">
+        <div class="security-secret-actions admin-actions">
           <button type="button" id="security-secret-copy">Копировать</button>
           <button type="button" class="secondary" id="security-secret-close">Закрыть</button>
         </div>

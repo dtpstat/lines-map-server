@@ -233,10 +233,8 @@
   font-size: .72rem;
 }
 .osm-boundary-group-help {
+  --admin-help-font-size: .66rem;
   margin: -.2rem 0 0;
-  color: var(--muted);
-  font-size: .66rem;
-  line-height: 1.4;
 }
 .osm-boundary-edit-group-display {
   border-color: #315d59;
