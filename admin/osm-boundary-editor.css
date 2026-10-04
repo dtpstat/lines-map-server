@@ -145,8 +145,6 @@
 .osm-boundary-node-source { color: var(--muted); font-size: .67rem; font-weight: 500; }
 .osm-boundary-node-type { color: var(--muted); font-size: .68rem; white-space: nowrap; }
 .osm-boundary-map-panel {
-  min-width: 0;
-  min-height: 0;
   overflow: hidden;
 }
 .osm-boundary-details {
@@ -197,9 +195,6 @@
 }
 .osm-boundary-primary-actions {
   white-space: nowrap;
-}
-.osm-boundary-primary-actions button {
-  flex: 1 1 0;
 }
 .osm-boundary-primary-actions button {
   width: auto;
@@ -379,7 +374,6 @@
   }
 }
 
-.osm-boundary-toolbar { }
 .osm-boundary-draft-count {
   color: var(--muted);
   font-size: .7rem;

@@ -987,3 +987,45 @@ test('geometry OSM and users share master detail shell primitives without sharin
     /\.security-master-detail\s*\{[^}]*grid-template-columns:\s*minmax\(16rem, 32%\)/u,
   );
 });
+
+
+test('shared UI refactor leaves no empty compatibility selectors or duplicate pane chrome', async () => {
+  const [
+    adminCss,
+    projectCss,
+    reportCss,
+    securityCss,
+    geometryCss,
+    osmCss,
+  ] = await Promise.all([
+    read('admin/admin.css'),
+    read('admin/project-settings.css'),
+    read('admin/report-config.css'),
+    read('admin/security-v2.css'),
+    read('admin/geometry-editor.css'),
+    read('admin/osm-boundary-editor.css'),
+  ]);
+
+  for (const css of [
+    adminCss,
+    projectCss,
+    reportCss,
+    securityCss,
+    geometryCss,
+    osmCss,
+  ]) {
+    assert.doesNotMatch(
+      css,
+      /\.[a-z0-9_-]+(?:\s*,\s*\.[a-z0-9_-]+)*\s*\{\s*\}/iu,
+    );
+  }
+
+  assert.doesNotMatch(
+    osmCss,
+    /\.osm-boundary-map-panel\s*\{[^}]*(?:min-width|min-height):\s*0/u,
+  );
+  assert.doesNotMatch(
+    osmCss,
+    /\.osm-boundary-primary-actions button\s*\{[^}]*flex:\s*1 1 0/u,
+  );
+});

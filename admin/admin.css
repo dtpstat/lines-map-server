@@ -220,7 +220,6 @@ h4 { margin-bottom: .35rem; font-size: .92rem; }
 }
 .settings-card { overflow: hidden; }
 .status-card { position: sticky; top: 1rem; overflow-x: hidden; overflow-y: auto; }
-.section-heading { }
 .status-heading { padding-bottom: .85rem; border-bottom: 1px solid var(--line); }
 
 .task-tabs,
