@@ -91,7 +91,7 @@ function createHeading(
       'div',
     );
   heading.className =
-    'section-heading admin-layout-heading';
+    'section-heading admin-layout-heading admin-heading';
   appendClassNames(
     heading,
     section.headingClass,

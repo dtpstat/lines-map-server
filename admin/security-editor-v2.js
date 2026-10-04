@@ -247,7 +247,7 @@ if (
 
   if (securityAuditHost) {
     securityAuditHost.innerHTML = `
-<div class="security-section-heading">
+<div class="security-section-heading admin-heading admin-heading--responsive">
           <div><h3>Аудит</h3><p>Входы и административные операции с фильтрацией и быстрыми реакциями.</p></div>
           <a class="secondary-link" id="security-audit-export" href="/api/admin/security/audit/export.csv" download>Экспорт CSV</a>
         </div>
@@ -311,8 +311,8 @@ if (
               </div>
             </fieldset>
 
-            <section class="security-mfa-policy-panel" aria-labelledby="security-mfa-policy-title">
-              <div class="security-mfa-policy-heading">
+            <section class="security-mfa-policy-panel admin-surface" aria-labelledby="security-mfa-policy-title">
+              <div class="security-mfa-policy-heading admin-heading admin-heading--center admin-heading--compact admin-heading--responsive">
                 <div>
                   <h3 id="security-mfa-policy-title">Multi-factor authentication</h3>
                   <p class="security-info">
@@ -327,8 +327,8 @@ if (
               </div>
             </section>
 
-            <section class="security-metrics-panel" aria-labelledby="security-metrics-title">
-              <div class="security-metrics-heading">
+            <section class="security-metrics-panel admin-surface" aria-labelledby="security-metrics-title">
+              <div class="security-metrics-heading admin-heading admin-heading--center admin-heading--compact admin-heading--responsive">
                 <div>
                   <h3 id="security-metrics-title">Prometheus metrics</h3>
                   <p class="security-info">
@@ -400,7 +400,7 @@ if (
     securityIpHost
   ) {
     securityIpHost.innerHTML = `
-<section class="security-ip-panel">
+<section class="security-ip-panel admin-surface">
             <h3>Ручные блокировки IP</h3>
             <form id="security-ip-block-form" class="security-ip-block-form">
               <label class="security-ip-address-field">IP
@@ -1028,7 +1028,7 @@ if (
         user,
       );
     detail.innerHTML = `
-      <div class="security-user-detail-heading">
+      <div class="security-user-detail-heading admin-heading admin-heading--responsive">
         <div><h3>${user.displayName || user.username}</h3><p>@${user.username}</p></div>
         <div class="security-user-badges">
           ${user.isBootstrap ? '<span>BOOTSTRAP</span>' : ''}

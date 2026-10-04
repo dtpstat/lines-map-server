@@ -611,3 +611,88 @@ test('admin tabs use one shared primitive while preserving the three visual leve
     /\.security-tabs button\[aria-selected="true"\]/u,
   );
 });
+
+
+test('admin cards and headings use shared visual primitives without domain chrome duplication', async () => {
+  const [
+    html,
+    layout,
+    layoutCss,
+    adminCss,
+    project,
+    projectCss,
+    security,
+    securityCss,
+  ] = await Promise.all([
+    read('admin/index.html'),
+    read('admin/admin-layout.js'),
+    read('admin/admin-layout.css'),
+    read('admin/admin.css'),
+    read('admin/project-settings-editor.js'),
+    read('admin/project-settings.css'),
+    read('admin/security-editor-v2.js'),
+    read('admin/security-v2.css'),
+  ]);
+
+  assert.match(
+    layoutCss,
+    /\.admin-surface[\s\S]*\.admin-heading[\s\S]*\.admin-heading--compact/u,
+  );
+  assert.match(
+    layout,
+    /section-heading admin-layout-heading admin-heading/u,
+  );
+  assert.match(
+    html,
+    /operation-panel transfer-mode admin-surface admin-surface--mode/u,
+  );
+  assert.match(
+    html,
+    /mode-heading admin-heading admin-heading--compact admin-heading--responsive/u,
+  );
+  assert.match(
+    project,
+    /project-settings-section admin-surface/u,
+  );
+  assert.match(
+    security,
+    /security-metrics-panel admin-surface/u,
+  );
+  assert.match(
+    security,
+    /security-mfa-policy-panel admin-surface/u,
+  );
+  assert.match(
+    security,
+    /security-ip-panel admin-surface/u,
+  );
+  assert.match(
+    security,
+    /security-block-policy admin-surface/u,
+  );
+  assert.match(
+    security,
+    /security-section-heading admin-heading admin-heading--responsive/u,
+  );
+  assert.match(
+    security,
+    /security-user-detail-heading admin-heading admin-heading--responsive/u,
+  );
+
+  assert.doesNotMatch(
+    projectCss,
+    /\.project-settings-section\s*\{[\s\S]*?border:\s*1px solid var\(--line\)/u,
+  );
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-metrics-panel\s*\{[\s\S]*?background:\s*#0d171a/u,
+  );
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-mfa-policy-panel\s*\{[\s\S]*?border:\s*1px solid var\(--line\)/u,
+  );
+  assert.doesNotMatch(
+    adminCss,
+    /\.mode-heading\s*\{[^}]*display:\s*flex/u,
+  );
+});

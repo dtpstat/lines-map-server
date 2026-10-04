@@ -166,3 +166,57 @@
   border-radius: 7px;
   font-size: .72rem;
 }
+
+
+/*
+ * Shared visual composition primitives.
+ *
+ * admin-surface is the common shell for local cards/panels inside a screen.
+ * Domain classes own layout/content semantics, not border/background/chrome.
+ *
+ * admin-heading is the common title/copy/actions composition. Modifiers tune
+ * spacing/alignment without creating per-screen heading implementations.
+ */
+.admin-surface {
+  min-width: 0;
+  padding: var(--admin-surface-padding, .75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--admin-surface-radius, 10px);
+  background: var(--admin-surface-bg, #0d171a);
+}
+
+.admin-surface--mode {
+  --admin-surface-padding: .72rem;
+  --admin-surface-bg: #111c20;
+}
+
+.admin-heading {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--admin-heading-gap, 1rem);
+}
+
+.admin-heading--center {
+  align-items: center;
+}
+
+.admin-heading--compact {
+  --admin-heading-gap: .75rem;
+}
+
+.admin-heading > :first-child {
+  min-width: 0;
+}
+
+.admin-heading p {
+  margin: 0;
+}
+
+@container admin-layout-block (max-width: 40rem) {
+  .admin-heading--responsive {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

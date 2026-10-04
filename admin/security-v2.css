@@ -160,7 +160,7 @@
 .security-user-row-state.is-temp { color: #e4b86a; }
 .security-user-detail { min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 1rem; }
 .security-user-detail-heading,
-.security-section-heading { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+.security-section-heading { }
 .security-user-detail-heading h3 { margin-bottom: .15rem; }
 .security-user-detail-heading p,
 .security-section-heading p { color: var(--muted); margin: 0; }
@@ -508,19 +508,11 @@ body.security-modal-open { overflow: hidden; }
   .security-inline-block-form {
     grid-template-columns: 1fr;
   }
-
-  .security-user-detail-heading {
-    flex-direction: column;
-  }
 }
 
 @container admin-layout-block (max-width: 40rem) {
   .security-audit-filter {
     grid-template-columns: 1fr;
-  }
-
-  .security-section-heading {
-    flex-direction: column;
   }
 }
 
@@ -660,18 +652,10 @@ body.security-modal-open { overflow: hidden; }
 
 
 .security-metrics-panel {
-  padding: .7rem .75rem;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #0d171a;
+  --admin-surface-padding: .7rem .75rem;
 }
 
-.security-metrics-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-}
+.security-metrics-heading { }
 
 .security-metrics-heading h3 {
   margin: 0 0 .15rem;
@@ -772,12 +756,6 @@ body.security-modal-open { overflow: hidden; }
   margin-top: .45rem;
 }
 
-@container admin-layout-block (max-width: 40rem) {
-  .security-metrics-heading {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
 
 
 .security-metrics-body.is-disabled {
@@ -791,18 +769,10 @@ body.security-modal-open { overflow: hidden; }
 
 
 .security-mfa-policy-panel {
-  padding: .7rem .75rem;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #0d171a;
+  --admin-surface-padding: .7rem .75rem;
 }
 
-.security-mfa-policy-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-}
+.security-mfa-policy-heading { }
 
 .security-mfa-policy-heading h3 {
   margin: 0 0 .15rem;
@@ -873,11 +843,6 @@ body.security-modal-open { overflow: hidden; }
 .security-ip-panel,
 .security-ip-blocks-panel,
 .security-ip-allowlist-panel {
-  min-width: 0;
-  padding: .75rem;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #0d171a;
 }
 
 .security-block-policy {

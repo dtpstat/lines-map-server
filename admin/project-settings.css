@@ -22,12 +22,10 @@
 }
 
 .project-settings-section {
+  --admin-surface-padding: .8rem;
+  --admin-surface-radius: 9px;
   display: grid;
   gap: .75rem;
-  padding: .8rem;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: #0d171a;
 }
 
 .project-settings-section h5 {

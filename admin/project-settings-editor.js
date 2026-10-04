@@ -96,7 +96,7 @@ if (typeof document !== 'undefined') {
       }
 
       mapHosts.cityCategory.innerHTML = `
-<section class="project-settings-section" aria-labelledby="project-city-category-title">
+<section class="project-settings-section admin-surface" aria-labelledby="project-city-category-title">
                 <div>
                   <h5 id="project-city-category-title">Разделение больших и малых городов</h5>
                   <p>Если население известно, используется порог населения. При отсутствии населения — порог площади активной OSM-геометрии.</p>
@@ -118,7 +118,7 @@ if (typeof document !== 'undefined') {
       `;
 
       mapHosts.display.innerHTML = `
-<section class="project-settings-section"
+<section class="project-settings-section admin-surface"
                        aria-labelledby="project-geometry-types-title">
                 <div>
                   <h5 id="project-geometry-types-title">Типы геометрий на публичной карте</h5>
@@ -183,7 +183,7 @@ if (typeof document !== 'undefined') {
       `;
 
       mapHosts.cityMarker.innerHTML = `
-<section class="project-settings-section" aria-labelledby="project-city-marker-title">
+<section class="project-settings-section admin-surface" aria-labelledby="project-city-marker-title">
                 <div>
                   <h5 id="project-city-marker-title">Маркер города на дальнем зуме</h5>
                   <p>Маркер показывается до масштаба, на котором загружаются линии. Загруженное изображение хранится в БД; на карте его ширина нормализуется до 32 px.</p>
@@ -279,7 +279,7 @@ if (typeof document !== 'undefined') {
                 <small>Одно значение используется в видимом заголовке и служебных title/meta/PWA-тегах.</small>
               </label>
 
-              <section class="project-settings-section" aria-labelledby="project-theme-title">
+              <section class="project-settings-section admin-surface" aria-labelledby="project-theme-title">
                 <div>
                   <h5 id="project-theme-title">Стиль публичного сайта</h5>
                   <p>Три встроенных адаптивных оформления используют одну и ту же разметку и данные. Меняется только CSS публичной страницы.</p>
@@ -319,7 +319,7 @@ if (typeof document !== 'undefined') {
                 <small>По одному на строку или через запятую. Используются в meta keywords; дубликаты удаляются.</small>
               </label>
 
-              <section class="project-settings-section" aria-labelledby="project-identifiers-title">
+              <section class="project-settings-section admin-surface" aria-labelledby="project-identifiers-title">
                 <div>
                   <h5 id="project-identifiers-title">Идентификаторы и API</h5>
                   <p>Идентификаторы аналитики можно оставить пустыми. Mapbox token хранится в БД и никогда не читается обратно в админку открытым текстом.</p>
@@ -372,7 +372,7 @@ if (typeof document !== 'undefined') {
       `;
 
       projectContentHosts.logging.innerHTML = `
-<section class="project-settings-section" aria-labelledby="project-file-logging-title">
+<section class="project-settings-section admin-surface" aria-labelledby="project-file-logging-title">
   <div>
     <h5 id="project-file-logging-title">Файловые журналы ошибок и нарушений</h5>
     <p>Сервер продолжает писать обычные сообщения в stdout/stderr и journald. При включении дополнительно создаются JSONL-журналы ошибок и security events.</p>
