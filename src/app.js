@@ -95,37 +95,37 @@ export function createApp({
 
   const effectiveLineTypesRepository =
     lineTypesRepository ??
-    testDefaults
+    defaults
       ?.lineTypesRepository ??
     null;
 
   const effectivePointTypesRepository =
     pointTypesRepository ??
-    testDefaults
+    defaults
       ?.pointTypesRepository ??
     null;
 
   const effectivePointTypeIconStore =
     pointTypeIconStore ??
-    testDefaults
+    defaults
       ?.pointTypeIconStore ??
     null;
 
   const effectiveProjectSettingsRepository =
     projectSettingsRepository ??
-    testDefaults
+    defaults
       ?.projectSettingsRepository ??
     null;
 
   const effectiveSettingsTransferService =
     settingsTransferService ??
-    testDefaults
+    defaults
       ?.settingsTransferService ??
     null;
 
   const effectiveReportConfigService =
     reportConfigService ??
-    testDefaults
+    defaults
       ?.reportConfigService ??
     null;
 
@@ -135,7 +135,7 @@ export function createApp({
 
   const effectiveSecurityService =
     securityService ??
-    testDefaults
+    defaults
       ?.securityService;
 
   if (
