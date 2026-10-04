@@ -384,6 +384,14 @@ test('desktop admin layout minimizes nested scrolling and exposes compact empty 
     project,
     /showPolygonGeometries[\s\S]*showLineLabels[\s\S]*showLinePopups[\s\S]*<\/section>/u,
   );
+  assert.match(
+    adminLayoutSchema,
+    /id:\s*'logging'[\s\S]*project-settings-logging-host/u,
+  );
+  assert.match(
+    project,
+    /project-file-logging-title[\s\S]*fileLoggingEnabled[\s\S]*fileLogRotateMaxSizeMb[\s\S]*fileLogRotateInterval[\s\S]*fileLogRetentionDays/u,
+  );
 
   assert.match(
     profile,

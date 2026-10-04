@@ -266,6 +266,10 @@ if (typeof document !== 'undefined') {
           form.querySelector(
             '#project-settings-footer-host',
           ),
+        logging:
+          form.querySelector(
+            '#project-settings-logging-host',
+          ),
       };
 
       projectContentHosts.general.innerHTML = `
@@ -367,6 +371,67 @@ if (typeof document !== 'undefined') {
               </div>
       `;
 
+      projectContentHosts.logging.innerHTML = `
+<section class="project-settings-section" aria-labelledby="project-file-logging-title">
+  <div>
+    <h5 id="project-file-logging-title">Файловые журналы ошибок и нарушений</h5>
+    <p>Сервер продолжает писать обычные сообщения в stdout/stderr и journald. При включении дополнительно создаются JSONL-журналы ошибок и security events.</p>
+  </div>
+
+  <label class="check project-setting-check">
+    <input name="fileLoggingEnabled" type="checkbox">
+    Включить запись в файлы
+    <small>Ошибки приложения записываются в errors.log, нарушения и security markers — в security.log.</small>
+  </label>
+
+  <div class="project-settings-help">
+    <div><strong>Каталог:</strong> <code id="project-file-log-directory">загрузка…</code></div>
+    <div><strong>Файлы:</strong> <code>errors.log</code> · <code>security.log</code></div>
+    <div>Каталог создаётся администратором ОС заранее. Node-процесс не требует root и при ошибке записи продолжает работу, сообщая проблему в stderr/journald.</div>
+  </div>
+
+  <div class="project-metrics-grid">
+    <label>Ротация по размеру, МБ
+      <input name="fileLogRotateMaxSizeMb" type="number" min="1" max="10240" step="1" required>
+      <small>При превышении размера активный файл архивируется перед следующей записью.</small>
+    </label>
+
+    <label>Ротация по времени
+      <select name="fileLogRotateInterval" required>
+        <option value="daily">Ежедневно</option>
+        <option value="weekly">Еженедельно</option>
+      </select>
+      <small>Проверка выполняется при записи нового события.</small>
+    </label>
+
+    <label>Хранить, дней
+      <input name="fileLogRetentionDays" type="number" min="1" max="3650" step="1" required>
+      <small>Архивы старше этого срока удаляются.</small>
+    </label>
+
+    <label>Максимум архивов
+      <input name="fileLogMaxArchives" type="number" min="1" max="365" step="1" required>
+      <small>Дополнительное ограничение количества архивов для каждого файла.</small>
+    </label>
+  </div>
+
+  <label class="check project-setting-check">
+    <input name="fileLogCompress" type="checkbox">
+    Сжимать архивы gzip
+    <small>Рекомендуется для production.</small>
+  </label>
+
+  <div class="project-settings-help">
+    <strong>Важно:</strong> параметры этой панели deployment-local и намеренно не входят в экспорт/импорт настроек проекта.
+    Внешний system logrotate из <code>ops/logrotate/</code> используется как аварийная страховка от неконтролируемого роста файлов.
+  </div>
+
+  <button class="task-action" type="submit" data-project-settings-submit>
+    Сохранить настройки логирования
+  </button>
+</section>
+      `;
+
       const projectTabs =
         setupAdminTabGroup({
           root: form,
@@ -445,6 +510,13 @@ if (typeof document !== 'undefined') {
       const googleAnalyticsId = form.elements.namedItem('googleAnalyticsId');
       const mapboxAccessToken = form.elements.namedItem('mapboxAccessToken');
       const footerHtml = form.elements.namedItem('footerHtml');
+      const fileLoggingEnabled = form.elements.namedItem('fileLoggingEnabled');
+      const fileLogRotateMaxSizeMb = form.elements.namedItem('fileLogRotateMaxSizeMb');
+      const fileLogRotateInterval = form.elements.namedItem('fileLogRotateInterval');
+      const fileLogRetentionDays = form.elements.namedItem('fileLogRetentionDays');
+      const fileLogMaxArchives = form.elements.namedItem('fileLogMaxArchives');
+      const fileLogCompress = form.elements.namedItem('fileLogCompress');
+      const fileLogDirectory = document.querySelector('#project-file-log-directory');
       const saveButtons = [
         ...document.querySelectorAll(
           '[data-project-settings-submit]',
@@ -748,6 +820,12 @@ if (typeof document !== 'undefined') {
         setMapboxState(Boolean(settings.mapboxAccessTokenConfigured));
         setCityMarkerState(settings);
         footerHtml.value = settings.footerHtml;
+        fileLoggingEnabled.checked = Boolean(settings.fileLoggingEnabled);
+        fileLogRotateMaxSizeMb.value = String(settings.fileLogRotateMaxSizeMb ?? 50);
+        fileLogRotateInterval.value = settings.fileLogRotateInterval ?? 'daily';
+        fileLogRetentionDays.value = String(settings.fileLogRetentionDays ?? 30);
+        fileLogMaxArchives.value = String(settings.fileLogMaxArchives ?? 30);
+        fileLogCompress.checked = settings.fileLogCompress !== false;
         setUpdatedAt(settings.updatedAt);
       }
 
@@ -765,6 +843,8 @@ if (typeof document !== 'undefined') {
             ...(payload.editor.cityMarkerIcon ?? {}),
           };
           applySettings(payload.settings);
+          fileLogDirectory.textContent =
+            payload.editor.fileLogging?.directory ?? 'не настроен';
           allowedTags.textContent = payload.editor.tags.map((tag) => `<${tag}>`).join(' · ');
           allowedClasses.textContent = payload.editor.classes.map((name) => `.${name}`).join(' · ');
           dirtyState?.markClean();
@@ -879,17 +959,30 @@ if (typeof document !== 'undefined') {
                 ? mapboxAccessToken.value.trim() || null
                 : null,
               footerHtml: footerHtml.value,
+              fileLoggingEnabled: fileLoggingEnabled.checked,
+              fileLogRotateMaxSizeMb: Number(fileLogRotateMaxSizeMb.value),
+              fileLogRotateInterval: fileLogRotateInterval.value,
+              fileLogRetentionDays: Number(fileLogRetentionDays.value),
+              fileLogMaxArchives: Number(fileLogMaxArchives.value),
+              fileLogCompress: fileLogCompress.checked,
             }),
           });
           const payload = await response.json();
           if (!response.ok) throw new Error(payload.error ?? `HTTP ${response.status}`);
           applySettings(payload.settings);
           dirtyState?.markClean();
+          const fileLoggingError =
+            payload.fileLogging?.configured === true &&
+            payload.fileLogging?.operational !== true
+              ? payload.fileLogging?.lastError?.message ?? 'каталог недоступен'
+              : null;
           setMessage(
-            payload.derivedRecalculated
-              ? 'Настройки сохранены. Метрики и рейтинги пересчитаны.'
-              : 'Настройки сохранены.',
-            'success',
+            fileLoggingError
+              ? 'Настройки сохранены, но файловый журнал недоступен: ' + fileLoggingError
+              : payload.derivedRecalculated
+                ? 'Настройки сохранены. Метрики и рейтинги пересчитаны.'
+                : 'Настройки сохранены.',
+            fileLoggingError ? 'error' : 'success',
           );
           if (payload.derivedRecalculated) {
             publishDerivedDataChange(

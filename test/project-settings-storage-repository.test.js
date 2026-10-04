@@ -84,6 +84,12 @@ test('project settings storage owns singleton read and update SQL', async () => 
     mapboxAccessToken: null,
     largeCityPopulationThreshold: 500000,
     largeCityAreaKm2Threshold: 250,
+    fileLoggingEnabled: true,
+    fileLogRotateMaxSizeMb: 64,
+    fileLogRotateInterval: 'weekly',
+    fileLogRetentionDays: 90,
+    fileLogMaxArchives: 20,
+    fileLogCompress: false,
   });
 
   assert.equal(current.projectName, 'Test');
@@ -125,6 +131,13 @@ test('project settings storage owns singleton read and update SQL', async () => 
   assert.match(database.queries[2].text, /show_polygon_geometries = \$15::boolean/u);
   assert.match(database.queries[0].text, /history_start_date::text AS "historyStartDate"/u);
   assert.match(database.queries[2].text, /history_start_date = \$16::date/u);
+  assert.match(database.queries[2].text, /file_logging_enabled = COALESCE\(\$17::boolean/u);
+  assert.match(database.queries[2].text, /file_log_rotate_max_size_mb = COALESCE\(\$18::integer/u);
+  assert.match(database.queries[2].text, /file_log_rotate_interval = COALESCE\(\$19::text/u);
+  assert.deepEqual(
+    database.queries[2].values.slice(16),
+    [true, 64, 'weekly', 90, 20, false],
+  );
   assert.match(database.queries[1].text, /FROM geometry_history_speeds/u);
   assert.match(database.queries[3].text, /FROM geometry_history_speeds/u);
   assert.equal(current.historySpeeds[0].name, '1x');

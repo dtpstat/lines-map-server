@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  installServiceFileLogSink,
   runServiceOperation,
   SECURITY_JOURNAL_MARKER,
   securityLog,
@@ -159,4 +160,45 @@ test('runServiceOperation logs failures and rethrows them', async () => {
     code: null,
     message: 'broken',
   });
+});
+
+
+test('service and security logs forward sanitized records to the optional file sink', () => {
+  const records = [];
+  installServiceFileLogSink(
+    (kind, record) => {
+      records.push({ kind, record });
+    },
+  );
+  const output = {
+    info() {},
+    warn() {},
+    error() {},
+  };
+
+  serviceLog(
+    'error',
+    'database.error',
+    {
+      password: 'secret',
+      message: 'failed',
+    },
+    output,
+  );
+  securityLog(
+    'admin.request.security_incident',
+    {
+      ip: '203.0.113.10',
+      token: 'secret-token',
+    },
+    output,
+  );
+  installServiceFileLogSink(null);
+
+  assert.equal(records.length, 2);
+  assert.equal(records[0].kind, 'error');
+  assert.equal(records[0].record.details.password, '[redacted]');
+  assert.equal(records[1].kind, 'security');
+  assert.equal(records[1].record.token, '[redacted]');
+  assert.equal(records[1].record.marker, SECURITY_JOURNAL_MARKER);
 });

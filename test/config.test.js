@@ -548,3 +548,39 @@ test('loadConfig validates optional MFA encryption key material', () => {
     /ADMIN_MFA_ENCRYPTION_KEY/u,
   );
 });
+
+
+test('loadConfig derives a safe file logging directory from the instance name', () => {
+  const config =
+    loadConfig(
+      {
+        ...REQUIRED_ENV,
+        DATABASE_SCHEMA: 'tramlanes',
+      },
+      '/project',
+    );
+  assert.equal(config.fileLogging.directory, '/var/log/tramlanes');
+
+  const custom =
+    loadConfig(
+      {
+        ...REQUIRED_ENV,
+        FILE_LOG_ROOT_DIR: '/srv/log',
+        FILE_LOG_PROJECT_NAME: 'tramlanes-prod',
+      },
+      '/project',
+    );
+  assert.equal(custom.fileLogging.directory, '/srv/log/tramlanes-prod');
+
+  assert.throws(
+    () =>
+      loadConfig(
+        {
+          ...REQUIRED_ENV,
+          FILE_LOG_PROJECT_NAME: '../escape',
+        },
+        '/project',
+      ),
+    /FILE_LOG_PROJECT_NAME/u,
+  );
+});

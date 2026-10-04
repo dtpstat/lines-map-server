@@ -26,6 +26,12 @@ test('project settings update policy preserves optional runtime settings semanti
   assert.equal(normalized.mapboxAccessToken, null);
   assert.equal(normalized.largeCityPopulationThreshold, 400000);
   assert.equal(normalized.largeCityAreaKm2Threshold, null);
+  assert.equal(normalized.fileLoggingEnabled, null);
+  assert.equal(normalized.fileLogRotateMaxSizeMb, null);
+  assert.equal(normalized.fileLogRotateInterval, null);
+  assert.equal(normalized.fileLogRetentionDays, null);
+  assert.equal(normalized.fileLogMaxArchives, null);
+  assert.equal(normalized.fileLogCompress, null);
 });
 
 test('project settings update policy normalizes theme token and thresholds', () => {
@@ -194,5 +200,43 @@ test('project settings update policy rejects invalid history configuration', () 
       }],
     }),
     /exactly one/u,
+  );
+});
+
+
+test('project settings update policy validates file logging rotation settings', () => {
+  const normalized =
+    normalizeProjectSettingsUpdate({
+      projectName: 'Test',
+      keywords: [],
+      footerHtml: '<p>Test</p>',
+      yandexMetrikaId: null,
+      googleAnalyticsId: null,
+      fileLoggingEnabled: true,
+      fileLogRotateMaxSizeMb: 64,
+      fileLogRotateInterval: 'weekly',
+      fileLogRetentionDays: 90,
+      fileLogMaxArchives: 20,
+      fileLogCompress: false,
+    });
+
+  assert.equal(normalized.fileLoggingEnabled, true);
+  assert.equal(normalized.fileLogRotateMaxSizeMb, 64);
+  assert.equal(normalized.fileLogRotateInterval, 'weekly');
+  assert.equal(normalized.fileLogRetentionDays, 90);
+  assert.equal(normalized.fileLogMaxArchives, 20);
+  assert.equal(normalized.fileLogCompress, false);
+
+  assert.throws(
+    () =>
+      normalizeProjectSettingsUpdate({
+        projectName: 'Test',
+        keywords: [],
+        footerHtml: '<p>Test</p>',
+        yandexMetrikaId: null,
+        googleAnalyticsId: null,
+        fileLogRotateInterval: 'hourly',
+      }),
+    /fileLogRotateInterval/u,
   );
 });

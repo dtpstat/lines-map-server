@@ -224,6 +224,22 @@ export const adminInterfaceTabs = [
             },
           ],
         },
+        {
+          id: 'logging',
+          title: 'Логирование',
+          blocks: [
+            {
+              id:
+                'project-logging',
+              hostId:
+                'project-settings-logging-host',
+              span: {
+                base: 12,
+                wide: 12,
+              },
+            },
+          ],
+        },
       ],
     },
     blocks: [
