@@ -593,7 +593,7 @@ if (
         'section',
       );
     policy.className =
-      'security-block-policy';
+      'security-block-policy admin-surface';
     const heading =
       document.createElement(
         'h3',
@@ -689,7 +689,7 @@ if (
         'section',
       );
     ipBlocks.className =
-      'security-ip-blocks-panel';
+      'security-ip-blocks-panel admin-surface';
     ipBlocks.innerHTML = `
       <div class="security-block-summary-heading">
         <div>
@@ -754,7 +754,7 @@ if (
         'section',
       );
     allowlist.className =
-      'security-ip-allowlist-panel';
+      'security-ip-allowlist-panel admin-surface';
     allowlist.innerHTML = `
       <h3>White-list IP</h3>
       <p class="security-info">

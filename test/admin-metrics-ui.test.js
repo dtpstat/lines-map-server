@@ -109,7 +109,7 @@ test('Prometheus controls are top-level and use a compact checkbox', async () =>
 
   const metricsIndex =
     editor.indexOf(
-      'class="security-metrics-panel"',
+      'class="security-metrics-panel admin-surface"',
     );
   const advancedIndex =
     editor.indexOf(

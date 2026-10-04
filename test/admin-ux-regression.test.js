@@ -77,9 +77,10 @@ test('admin data and project settings are split into meaningful visual groups', 
 });
 
 test('user and profile UX expose avatars password policy and non-blocking session controls', async () => {
-  const [security, securityCss, profile, profileCss, securityData] = await Promise.all([
+  const [security, securityCss, layoutCss, profile, profileCss, securityData] = await Promise.all([
     read('admin/security-editor-v2.js'),
     read('admin/security-v2.css'),
+    read('admin/admin-layout.css'),
     read('admin/profile-editor.js'),
     read('admin/profile.css'),
     read('src/modules/security/policy.js'),
@@ -110,8 +111,8 @@ test('user and profile UX expose avatars password policy and non-blocking sessio
     /@container admin-layout-block \(max-width: 78rem\)[\s\S]*\.security-password-policy-row/u,
   );
   assert.match(
-    securityCss,
-    /@container admin-layout-block \(max-width: 40rem\)[\s\S]*\.security-metrics-heading/u,
+    layoutCss,
+    /@container admin-layout-block \(max-width: 40rem\)[\s\S]*\.admin-heading--responsive/u,
   );
   assert.match(
     securityCss,
@@ -123,7 +124,11 @@ test('user and profile UX expose avatars password policy and non-blocking sessio
   );
   assert.match(
     securityCss,
-    /@container admin-layout-block \(max-width: 40rem\)[\s\S]*\.security-audit-filter[\s\S]*\.security-section-heading/u,
+    /@container admin-layout-block \(max-width: 40rem\)[\s\S]*\.security-audit-filter/u,
+  );
+  assert.match(
+    security,
+    /security-section-heading admin-heading admin-heading--responsive/u,
   );
   assert.doesNotMatch(
     securityCss,
@@ -139,7 +144,11 @@ test('user and profile UX expose avatars password policy and non-blocking sessio
   );
   assert.match(
     securityCss,
-    /@container admin-layout-block \(max-width: 40rem\)[\s\S]*\.security-detail-fields[\s\S]*\.security-role-grid[\s\S]*\.security-inline-block-form[\s\S]*\.security-user-detail-heading/u,
+    /@container admin-layout-block \(max-width: 40rem\)[\s\S]*\.security-detail-fields[\s\S]*\.security-role-grid[\s\S]*\.security-inline-block-form/u,
+  );
+  assert.match(
+    security,
+    /security-user-detail-heading admin-heading admin-heading--responsive/u,
   );
   assert.doesNotMatch(
     securityCss,
