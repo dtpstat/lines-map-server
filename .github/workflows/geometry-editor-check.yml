@@ -56,12 +56,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        postgis:
-          - '3.5'
-          - '3.6'
+        image:
+          - postgis/postgis:17-3.5
+          - postgis/postgis:17-3.6-alpine
     services:
       postgres:
-        image: postgis/postgis:17-${{ matrix.postgis }}
+        image: ${{ matrix.image }}
         env:
           POSTGRES_PASSWORD: postgres-ci
         ports:
@@ -106,12 +106,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        postgis:
-          - '3.5'
-          - '3.6'
+        image:
+          - postgis/postgis:17-3.5
+          - postgis/postgis:17-3.6-alpine
     services:
       postgres:
-        image: postgis/postgis:17-${{ matrix.postgis }}
+        image: ${{ matrix.image }}
         env:
           POSTGRES_PASSWORD: postgres-ci
         ports:
@@ -154,12 +154,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        postgis:
-          - '3.5'
-          - '3.6'
+        image:
+          - postgis/postgis:17-3.5
+          - postgis/postgis:17-3.6-alpine
     services:
       postgres:
-        image: postgis/postgis:17-${{ matrix.postgis }}
+        image: ${{ matrix.image }}
         env:
           POSTGRES_PASSWORD: postgres-ci
         ports:
