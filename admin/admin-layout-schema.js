@@ -593,6 +593,8 @@ export const adminSecuritySettingsLayout = {
 
 export const adminSecurityLayout = {
   tabs: {
+    visualLevel:
+      'section',
     stateKey:
       'security',
     defaultId:

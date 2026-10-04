@@ -592,8 +592,12 @@ test('admin tabs use one shared primitive while preserving the three visual leve
     /visualLevel:\s*'section'[\s\S]*stateKey:\s*'security-settings'/u,
   );
   assert.match(
-    security,
-    /security-tabs admin-tabs admin-tabs--section/u,
+    schema,
+    /adminSecurityLayout[\s\S]*visualLevel:\s*'section'[\s\S]*tabsClass:\s*'security-tabs'/u,
+  );
+  assert.match(
+    layout,
+    /applyAdminTabPrimitive\([\s\S]*definition\.visualLevel[\s\S]*'sub'/u,
   );
 
   assert.doesNotMatch(
