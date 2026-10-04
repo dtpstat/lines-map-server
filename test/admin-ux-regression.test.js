@@ -690,15 +690,15 @@ test('admin cards and headings use shared visual primitives without domain chrom
 
   assert.doesNotMatch(
     projectCss,
-    /\.project-settings-section\s*\{[\s\S]*?border:\s*1px solid var\(--line\)/u,
+    /\.project-settings-section\s*\{[^}]*border:\s*1px solid var\(--line\)/u,
   );
   assert.doesNotMatch(
     securityCss,
-    /\.security-metrics-panel\s*\{[\s\S]*?background:\s*#0d171a/u,
+    /\.security-metrics-panel\s*\{[^}]*background:\s*#0d171a/u,
   );
   assert.doesNotMatch(
     securityCss,
-    /\.security-mfa-policy-panel\s*\{[\s\S]*?border:\s*1px solid var\(--line\)/u,
+    /\.security-mfa-policy-panel\s*\{[^}]*border:\s*1px solid var\(--line\)/u,
   );
   assert.doesNotMatch(
     adminCss,
