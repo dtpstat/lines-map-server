@@ -146,6 +146,61 @@ test('source layers keep dependency direction explicit', async () => {
   );
 });
 
+test('production source never imports test-only helpers', async () => {
+  const productionFiles =
+    (await jsFiles(srcRoot))
+      .filter(
+        (file) =>
+          !file.startsWith(
+            path.join(srcRoot, 'testing') + path.sep,
+          ),
+      );
+
+  for (const file of productionFiles) {
+    const source = await fs.readFile(file, 'utf8');
+    for (const specifier of importSpecifiers(source)) {
+      const resolved = resolveRelativeImport(file, specifier);
+      assert.ok(
+        !resolved ||
+          !resolved.startsWith(
+            path.join(srcRoot, 'testing') + path.sep,
+          ),
+        `${path.relative(root, file)} must not depend on src/testing`,
+      );
+    }
+  }
+});
+
+test('shared browser derived-data events have one neutral owner', async () => {
+  const [publicApp, geometryEditor, osmEditor, projectEditor] =
+    await Promise.all([
+      fs.readFile(path.join(root, 'public', 'js', 'app.js'), 'utf8'),
+      fs.readFile(path.join(root, 'admin', 'geometry-editor.js'), 'utf8'),
+      fs.readFile(path.join(root, 'admin', 'osm-boundary-editor.js'), 'utf8'),
+      fs.readFile(path.join(root, 'admin', 'project-settings-editor.js'), 'utf8'),
+    ]);
+
+  await fs.access(
+    path.join(root, 'public', 'js', 'shared', 'derived-data-events.js'),
+  );
+  assert.match(publicApp, /\.\/shared\/derived-data-events\.js/u);
+  for (const source of [geometryEditor, osmEditor, projectEditor]) {
+    assert.match(source, /\.\.\/js\/shared\/derived-data-events\.js/u);
+  }
+  await assert.rejects(
+    fs.access(path.join(root, 'admin', 'derived-data-events.js')),
+    (error) => error?.code === 'ENOENT',
+  );
+});
+
+test('deployment documentation keeps portable transfer defaults synchronized', async () => {
+  const deployment =
+    await fs.readFile(path.join(root, 'docs', 'deployment.md'), 'utf8');
+  assert.match(deployment, /IMPORT_API_MAX_STREAM_UPLOAD_BYTES=8589934592/u);
+  assert.match(deployment, /IMPORT_API_MAX_STREAM_JSON_BYTES=34359738368/u);
+  assert.match(deployment, /IMPORT_API_MAX_STREAM_ITEM_BYTES=134217728/u);
+});
+
 test('repository architecture instructions stay present and point to enforced checks', async () => {
   const [agents, architecture] = await Promise.all([
     fs.readFile(
