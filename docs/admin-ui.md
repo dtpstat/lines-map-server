@@ -57,24 +57,24 @@ Responsive composition строится через container queries block/grid,
 
 ## Reusable visual primitives
 
-При UI-аудите одинаковые паттерны рассматриваются как кандидаты на общий
-primitive:
+После UI reuse-аудита общая visual composition закреплена конкретными
+primitives в `admin/admin-layout.css` и schema/layout helpers:
 
-- block/card shell;
-- section header + actions;
-- tabs;
-- toolbar;
-- data table + sort/filter/paging;
-- search/filter bar;
-- detail pane;
-- form field group + hint/validation;
-- status badge/marker;
-- empty/loading/error state;
-- dialog/action bar.
+- `.admin-tabs` + `--primary / --section / --sub` — три уровня tabs;
+- `.admin-surface` — локальный card/panel shell;
+- `.admin-heading` — section heading/copy/actions composition;
+- `.admin-table-wrap` и `.admin-pagination` — bounded table scroll и paging;
+- `.admin-message` и `.admin-help` — status/help presentation;
+- `.admin-actions` и `.admin-badge` — общие action/status patterns;
+- `.admin-master-detail`, `.admin-workspace-pane`, `.admin-master-pane`,
+  `.admin-detail-pane` — reusable workspace/detail composition.
 
-Критерий — одинаковая визуальная и UX-семантика, а не совпадение domain data.
-Например users, blocked IP и point types могут использовать общий table/card
-primitive, сохраняя разные render/data handlers.
+Domain selectors остаются layout/behavior hooks: grid ratios, map/tree
+semantics, selection/lease/conflict states и feature-specific forms не
+переносятся в shared primitive.
+
+Критерий reuse — одинаковая visual и UX-семантика, а не совпадение domain
+data.
 
 ## Geometry editor specifics
 
