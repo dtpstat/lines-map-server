@@ -337,3 +337,37 @@
   --admin-badge-color: var(--danger);
   --admin-badge-border: var(--danger);
 }
+
+
+/*
+ * Shared master/detail workspace primitives.
+ *
+ * Domain styles own column ratios, responsive breakpoints and content layout.
+ * These primitives own the common grid shell and pane chrome only.
+ */
+.admin-master-detail {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+}
+
+.admin-master-detail--framed {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel-2);
+}
+
+.admin-workspace-pane {
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0c1417;
+}
+
+.admin-master-pane,
+.admin-detail-pane {
+  min-width: 0;
+  min-height: 0;
+}

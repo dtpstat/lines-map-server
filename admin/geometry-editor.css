@@ -90,24 +90,12 @@
 }
 
 .geometry-editor-layout {
-  min-height: 0;
   flex: 1 1 auto;
-  display: grid;
   grid-template-columns:
     minmax(19rem, .72fr)
     minmax(30rem, 1.8fr)
     minmax(20rem, .82fr);
   gap: .85rem;
-}
-
-.geometry-editor-list-panel,
-.geometry-editor-map-panel,
-.geometry-editor-details {
-  min-width: 0;
-  min-height: 0;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #0c1417;
 }
 
 .geometry-editor-details.is-empty {

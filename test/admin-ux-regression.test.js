@@ -890,3 +890,100 @@ test('admin actions and badges use shared primitives while empty state stays can
     /\.empty-state\s*\{[^}]*color:\s*var\(--muted\)/u,
   );
 });
+
+
+test('geometry OSM and users share master detail shell primitives without sharing domain layout', async () => {
+  const [
+    html,
+    layoutCss,
+    geometryCss,
+    osmCss,
+    security,
+    securityCss,
+  ] = await Promise.all([
+    read('admin/index.html'),
+    read('admin/admin-layout.css'),
+    read('admin/geometry-editor.css'),
+    read('admin/osm-boundary-editor.css'),
+    read('admin/security-editor-v2.js'),
+    read('admin/security-v2.css'),
+  ]);
+
+  assert.match(
+    layoutCss,
+    /\.admin-master-detail[\s\S]*\.admin-master-detail--framed[\s\S]*\.admin-workspace-pane[\s\S]*\.admin-master-pane[\s\S]*\.admin-detail-pane/u,
+  );
+
+  assert.match(
+    html,
+    /geometry-editor-layout admin-master-detail/u,
+  );
+  assert.match(
+    html,
+    /geometry-editor-list-panel admin-workspace-pane admin-master-pane/u,
+  );
+  assert.match(
+    html,
+    /geometry-editor-map-panel admin-workspace-pane/u,
+  );
+  assert.match(
+    html,
+    /geometry-editor-details admin-workspace-pane admin-detail-pane/u,
+  );
+
+  assert.match(
+    html,
+    /osm-boundary-layout admin-master-detail/u,
+  );
+  assert.match(
+    html,
+    /osm-boundary-tree-panel admin-workspace-pane admin-master-pane/u,
+  );
+  assert.match(
+    html,
+    /osm-boundary-map-panel admin-workspace-pane/u,
+  );
+  assert.match(
+    html,
+    /osm-boundary-details admin-workspace-pane admin-detail-pane/u,
+  );
+
+  assert.match(
+    security,
+    /security-master-detail admin-master-detail admin-master-detail--framed/u,
+  );
+  assert.match(
+    security,
+    /security-users-master admin-master-pane/u,
+  );
+  assert.match(
+    security,
+    /security-user-detail admin-detail-pane/u,
+  );
+
+  assert.doesNotMatch(
+    geometryCss,
+    /\.geometry-editor-layout\s*\{[^}]*display:\s*grid/u,
+  );
+  assert.doesNotMatch(
+    osmCss,
+    /\.osm-boundary-layout\s*\{[^}]*display:\s*grid/u,
+  );
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-master-detail\s*\{[^}]*border:\s*1px solid var\(--line\)/u,
+  );
+
+  assert.match(
+    geometryCss,
+    /\.geometry-editor-layout\s*\{[^}]*grid-template-columns:[^}]*19rem[^}]*30rem[^}]*20rem/u,
+  );
+  assert.match(
+    osmCss,
+    /\.osm-boundary-layout\s*\{[^}]*grid-template-columns:[^}]*17rem[^}]*28rem[^}]*22rem/u,
+  );
+  assert.match(
+    securityCss,
+    /\.security-master-detail\s*\{[^}]*grid-template-columns:\s*minmax\(16rem, 32%\)/u,
+  );
+});

@@ -21,7 +21,6 @@
 }
 .osm-boundary-layout {
   min-height: 30rem;
-  display: grid;
   grid-template-columns:
     minmax(17rem, .68fr)
     minmax(28rem, 1.72fr)
@@ -31,15 +30,6 @@
 .osm-boundary-section-card .osm-boundary-layout {
   min-height: 0;
   flex: 1 1 auto;
-}
-.osm-boundary-tree-panel,
-.osm-boundary-map-panel,
-.osm-boundary-details {
-  min-width: 0;
-  min-height: 0;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #0c1417;
 }
 .osm-boundary-tree-panel {
   display: flex;

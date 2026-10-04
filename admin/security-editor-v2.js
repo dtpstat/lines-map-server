@@ -216,8 +216,8 @@ if (
 
   if (securityPanels.users) {
     securityPanels.users.innerHTML = `
-<div class="security-master-detail">
-          <aside class="security-users-master">
+<div class="security-master-detail admin-master-detail admin-master-detail--framed">
+          <aside class="security-users-master admin-master-pane">
             <div class="security-master-toolbar">
               <input id="security-user-search" type="search" placeholder="Поиск пользователя…" aria-label="Поиск пользователя">
               <button type="button"
@@ -232,7 +232,7 @@ if (
             </div>
             <div id="security-users-list" class="security-users-list" role="listbox"></div>
           </aside>
-          <section class="security-user-detail" id="security-user-detail">
+          <section class="security-user-detail admin-detail-pane" id="security-user-detail">
             <p class="empty-state">Выберите пользователя слева.</p>
           </section>
         </div>

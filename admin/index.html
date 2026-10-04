@@ -528,8 +528,8 @@
           </section>
 
           <div class="geometry-editor-workspace">
-            <div class="geometry-editor-layout">
-              <section class="geometry-editor-list-panel"
+            <div class="geometry-editor-layout admin-master-detail">
+              <section class="geometry-editor-list-panel admin-workspace-pane admin-master-pane"
                        aria-label="Геометрии выбранного города">
                 <div class="geometry-editor-list-controls">
                   <label>Город
@@ -578,7 +578,7 @@
 
               </section>
 
-              <section class="geometry-editor-map-panel"
+              <section class="geometry-editor-map-panel admin-workspace-pane"
                        aria-label="Карта редактора геометрий">
                 <div class="geometry-editor-map-toolbar">
                   <span id="geometry-editor-mode">Выберите геометрию</span>
@@ -667,7 +667,7 @@
                 <div id="geometry-editor-map" class="geometry-editor-map"></div>
               </section>
 
-              <aside class="geometry-editor-details"
+              <aside class="geometry-editor-details admin-workspace-pane admin-detail-pane"
                      aria-label="Атрибуты выбранной геометрии">
                 <section class="geometry-conflict-decision"
                          id="geometry-conflict-decision" hidden>
@@ -990,8 +990,8 @@
           </p>
 
           <div class="osm-boundary-workspace">
-            <div class="osm-boundary-layout">
-              <section class="osm-boundary-tree-panel" aria-label="Дерево OSM объектов">
+            <div class="osm-boundary-layout admin-master-detail">
+              <section class="osm-boundary-tree-panel admin-workspace-pane admin-master-pane" aria-label="Дерево OSM объектов">
                 <label class="osm-boundary-search-label" for="osm-boundary-search">
                   <span>Поиск</span>
                   <input id="osm-boundary-search" class="osm-boundary-search"
@@ -1008,11 +1008,11 @@
                 </div>
               </section>
 
-              <section class="osm-boundary-map-panel" aria-label="Карта выбранной OSM геометрии">
+              <section class="osm-boundary-map-panel admin-workspace-pane" aria-label="Карта выбранной OSM геометрии">
                 <div id="osm-boundary-map" class="osm-boundary-map"></div>
               </section>
 
-              <aside class="osm-boundary-details" aria-label="Атрибуты выбранного OSM объекта">
+              <aside class="osm-boundary-details admin-workspace-pane admin-detail-pane" aria-label="Атрибуты выбранного OSM объекта">
                 <header class="osm-boundary-details-header">
                   <div class="osm-boundary-selected-title" id="osm-boundary-selected-title">
                     Выберите объект в дереве
