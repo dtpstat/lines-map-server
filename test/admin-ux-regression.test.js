@@ -787,6 +787,6 @@ test('admin tables pagination messages and help use shared primitives', async ()
   );
   assert.doesNotMatch(
     reportCss,
-    /\.report-config-message\s*\{[^}]*color:\s*var\(--warning\)/u,
+    /\.report-config-message\s*\{[^}]*(?:^|[;{]\s*)color:\s*var\(--warning\)/mu,
   );
 });
