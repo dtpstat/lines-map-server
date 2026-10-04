@@ -387,6 +387,25 @@ Public snapshots не являются round-trip format. Для перенос�
 
 Подробнее: [docs/data-transfer.md](docs/data-transfer.md) и [docs/kml-transfer.md](docs/kml-transfer.md).
 
+### Файловые журналы ошибок и нарушений
+
+В **Настройка интерфейса → Проект → Логирование** можно включить два
+структурированных JSONL-журнала:
+
+```text
+/var/log/<FILE_LOG_PROJECT_NAME>/errors.log
+/var/log/<FILE_LOG_PROJECT_NAME>/security.log
+```
+
+`errors.log` получает application errors и failed admin operations;
+`security.log` использует тот же `DTPSTAT_SECURITY_V1` marker, что journald
+и fail2ban. Sensitive keys проходят через существующий audit sanitizer.
+
+Ротация выполняется приложением по размеру и daily/weekly периоду; настраиваются
+retention days, maximum archives и gzip. Каталог заранее создаётся deployment
+администратором; Node не требует root. Дополнительный OS-level safety net:
+`ops/logrotate/`.
+
 ## Перенос настроек
 
 Superuser API:

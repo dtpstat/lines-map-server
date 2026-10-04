@@ -7,7 +7,7 @@
 На текущем состоянии исходников:
 
 - Node.js: `>=20.19` (`package.json`);
-- migration tail: `V065__admin_ip_allowlist.sql`;
+- migration tail: `V066__project_file_logging.sql`;
 - project-settings transfer: `schemaVersion 11`;
 - online admin authentication: только DB-backed HttpOnly session, HTTP Basic
   для защищённого API не поддерживается;
@@ -33,7 +33,8 @@
 | [project-settings-transfer.md](project-settings-transfer.md) | versioned project configuration package |
 | [report-config.md](report-config.md) | metrics/table/CSV/ranking DSL |
 | [deployment.md](deployment.md) | instances, migrations, nginx, PM2, production settings |
-| [monitoring.md](monitoring.md) | Prometheus and fail2ban templates |
+| [monitoring.md](monitoring.md) | Prometheus, fail2ban and structured file logs |
+| [../ops/logrotate/README.md](../ops/logrotate/README.md) | deployment log directory and external logrotate safety net |
 | [analytics.md](analytics.md) | Yandex Metrica / GA4 and CSP |
 | [database-indexes.md](database-indexes.md) | current PostgreSQL/PostGIS access paths and index rationale |
 

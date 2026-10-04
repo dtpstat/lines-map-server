@@ -436,6 +436,17 @@ schema change должно использовать следующий своб�
 опубликованные migrations задним числом не изменяются.
 
 
+## File security logs
+
+Security events продолжают отправляться в stderr/journald с marker
+`DTPSTAT_SECURITY_V1`. При включённом project file logging тот же
+санитизированный event одновременно записывается в `security.log`. Пароли,
+tokens, cookies, session identifiers, hashes и другие security-like keys
+проходят через общий `sanitizeAdminAuditData()`.
+
+Файловый sink fail-safe: недоступный каталог не меняет HTTP/runtime behavior и
+не блокирует security audit в PostgreSQL/journald.
+
 ## Optional deployment integrations
 
 Уже реализовано:

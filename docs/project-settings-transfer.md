@@ -140,6 +140,16 @@ passwordRequireSpecial
 Metrics bearer token/hash и `MFA_REQUIRED` не переносятся: это
 deployment-local security state.
 
+## Deployment-local file logging
+
+Параметры file logging/rotation (`fileLoggingEnabled`,
+`fileLogRotateMaxSizeMb`, interval, retention, archive count, compression) не
+входят в portable project package. Они относятся к конкретному host и
+сохраняются на target без изменения при import.
+
+Каталог `/var/log/<FILE_LOG_PROJECT_NAME>` также не является частью project
+transfer.
+
 ## Что не переносится
 
 Package не содержит:

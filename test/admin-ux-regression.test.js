@@ -312,6 +312,7 @@ test('user and profile UX expose avatars password policy and non-blocking sessio
 test('desktop admin layout minimizes nested scrolling and exposes compact empty states', async () => {
   const [
     adminCss,
+    adminLayoutSchema,
     projectCss,
     project,
     profile,
@@ -323,6 +324,9 @@ test('desktop admin layout minimizes nested scrolling and exposes compact empty 
     await Promise.all([
       read(
         'admin/admin.css',
+      ),
+      read(
+        'admin/admin-layout-schema.js',
       ),
       read(
         'admin/project-settings.css',

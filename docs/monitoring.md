@@ -125,3 +125,21 @@ At minimum chart:
 Keep route labels aggregated unless a specific endpoint is under investigation.
 The application intentionally normalizes dynamic API paths to bounded route
 templates to prevent Prometheus cardinality growth.
+
+
+## Structured file logs
+
+Optional project file logging mirrors operational incidents into:
+
+```text
+/var/log/<project>/errors.log
+/var/log/<project>/security.log
+```
+
+The security file preserves `DTPSTAT_SECURITY_V1`, so the same event model can
+be consumed either from journald or from the JSONL file. Prefer journald for
+the existing fail2ban deployment unless there is a concrete reason to switch
+to file-tail mode.
+
+The built-in rotation policy is configured from the admin UI. A looser
+filesystem safety-net template lives in `ops/logrotate/`.

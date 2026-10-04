@@ -211,9 +211,10 @@ V055__admin_mfa.sql
 - `V056` — optional mandatory-MFA policy;
 - `V057…V061` — geometry visibility/timeline, public type toggles, point-type zoom и history speed profiles;
 - `V062…V064` — persistent discussion read state и generic geometry/OSM subjects;
-- `V065` — administrator IPv4/IPv6 CIDR allowlist.
+- `V065` — administrator IPv4/IPv6 CIDR allowlist;
+- `V066` — project-local file logging/rotation policy.
 
-Текущий migration tail: **V065**. Следующая migration — **V066+**.
+Текущий migration tail: **V066**. Следующая migration — **V067+**.
 Опубликованные migration files не изменяются задним числом.
 
 Startup автоматически применяет pending migrations через отдельный
@@ -357,6 +358,34 @@ sudo systemctl reload nginx
 Готовые deployment templates для fail2ban и Prometheus alerts находятся в
 `ops/`. Порядок установки, проверки regex/rules и рекомендуемые dashboards:
 [monitoring.md](monitoring.md).
+
+## Файловые журналы приложения
+
+Файловое логирование включается в
+**Настройка интерфейса → Проект → Логирование**. Каталог deployment-local:
+
+```text
+FILE_LOG_ROOT_DIR=/var/log
+FILE_LOG_PROJECT_NAME=<safe-instance-name>
+/var/log/<safe-instance-name>/
+```
+
+Если `FILE_LOG_PROJECT_NAME` не задан, используется `DATABASE_SCHEMA`.
+Node не создаёт каталог под `/var/log` и не требует root.
+
+Пример:
+
+```bash
+sudo install -d -o dtpstat -g dtpstat -m 0750 /var/log/buslanes
+```
+
+Файлы: `errors.log` и `security.log`. Приложение само выполняет rotation
+по размеру и daily/weekly периоду, с gzip и pruning. При невозможности записи
+приложение продолжает работу и пишет ошибку в stderr/journald.
+
+Дополнительный системный safety net находится в `ops/logrotate/`. Он не
+использует `copytruncate`: приложение не держит persistent file descriptor и
+после rename автоматически создаёт новый active file при следующей записи.
 
 ## PM2
 

@@ -1,0 +1,24 @@
+# DTP-Stat external logrotate safety net.
+#
+# Application-level size/time rotation is configured from the admin UI.
+# This OS-level policy is deliberately looser and protects the filesystem if
+# application rotation cannot run.
+#
+# Replace placeholders before installing:
+#   __PROJECT_NAME__ -> FILE_LOG_PROJECT_NAME (or DATABASE_SCHEMA fallback)
+#   __APP_USER__     -> runtime service account
+#   __APP_GROUP__    -> runtime service group
+
+"/var/log/__PROJECT_NAME__/errors.log" "/var/log/__PROJECT_NAME__/security.log" {
+    daily
+    maxsize 1G
+    rotate 14
+    missingok
+    notifempty
+    compress
+    delaycompress
+    dateext
+    dateformat -%Y%m%d-%H%M%S
+    su __APP_USER__ __APP_GROUP__
+    create 0640 __APP_USER__ __APP_GROUP__
+}

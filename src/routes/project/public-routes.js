@@ -92,15 +92,21 @@ export function registerProjectPublicRoutes(
         const settings =
           await projectSettingsRepository
             .get();
-        const {
-          fileLoggingEnabled: _fileLoggingEnabled,
-          fileLogRotateMaxSizeMb: _fileLogRotateMaxSizeMb,
-          fileLogRotateInterval: _fileLogRotateInterval,
-          fileLogRetentionDays: _fileLogRetentionDays,
-          fileLogMaxArchives: _fileLogMaxArchives,
-          fileLogCompress: _fileLogCompress,
-          ...publicSettings
-        } = settings;
+        const publicSettings = {
+          ...settings,
+        };
+        for (
+          const field of [
+            'fileLoggingEnabled',
+            'fileLogRotateMaxSizeMb',
+            'fileLogRotateInterval',
+            'fileLogRetentionDays',
+            'fileLogMaxArchives',
+            'fileLogCompress',
+          ]
+        ) {
+          delete publicSettings[field];
+        }
 
         response.set(
           'Cache-Control',
