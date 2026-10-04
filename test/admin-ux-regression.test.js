@@ -542,7 +542,6 @@ test('admin tabs use one shared primitive while preserving the three visual leve
     schema,
     projectCss,
     reportCss,
-    security,
     securityCss,
   ] = await Promise.all([
     read('admin/index.html'),
@@ -551,7 +550,6 @@ test('admin tabs use one shared primitive while preserving the three visual leve
     read('admin/admin-layout-schema.js'),
     read('admin/project-settings.css'),
     read('admin/report-config.css'),
-    read('admin/security-editor-v2.js'),
     read('admin/security-v2.css'),
   ]);
 
