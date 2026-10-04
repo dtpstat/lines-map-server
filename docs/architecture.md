@@ -23,7 +23,7 @@ compatibility-facade и общий каталог `src/data`.
 | `src/routes` | Express route registration и HTTP endpoint orchestration | `application`, `modules`, `http`, `shared`; не `db` |
 | `src/http` | HTTP middleware/adapters, auth transport, public-site/server transport | `modules`, `shared`; не прямой `db` |
 | `src/shared` | Domain-neutral reusable infrastructure | только `shared`, Node/external libraries и нейтральные top-level logging helpers |
-| `src/testing` | Test-only defaults/helpers | production code не должен от него зависеть |
+| `src/testing` | Test-only defaults/helpers | production code не должен от него зависеть; test composition инжектирует defaults снаружи |
 | `src/data` | **Удалённый legacy layer** | не создавать |
 
 ### Почему repositories бывают и в modules, и в db
@@ -167,6 +167,10 @@ toast storage/rendering.
 Только действительно domain-neutral код размещается в `src/shared`.
 Если helper знает о project/OSM/lines/security semantics, он не shared.
 
+Test-only helpers из `src/testing` не импортируются production-кодом, включая top-level composition roots. Тестовый harness собирает и передаёт doubles/defaults через dependency injection.
+
+Общая browser-инфраструктура, используемая public и admin surfaces, не должна принадлежать одному из этих UI-доменов. Cross-tab derived-data event bus находится в `public/js/shared`: public/admin consumers зависят от общего нейтрального owner, а не друг от друга.
+
 ## Admin UI architecture
 
 Админка использует schema-driven layout вместо независимой ручной композиции
@@ -222,6 +226,8 @@ domain-specific editor.
 ## Транзакции и orchestration
 
 Фокусированный repository отвечает за свои SQL operations.
+
+После успешного `COMMIT` authoritative mutation считается завершённой. Отказ вторичного derived side effect (перегенерация public snapshot, runtime reconfigure и т.п.) не должен превращать уже сохранённое изменение в HTTP 500. Endpoint возвращает успешный authoritative result вместе с явным `warnings`/status вторичной фазы.
 
 Если одна операция координирует несколько persistence slices, lifecycle stages
 или derived refresh, transaction/orchestration должен находиться в owning
