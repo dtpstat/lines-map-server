@@ -14,6 +14,35 @@ function appendClassNames(
   }
 }
 
+function applyAdminTabPrimitive(
+  host,
+  level,
+) {
+  if (!host) return;
+
+  const normalizedLevel =
+    ['primary', 'section', 'sub']
+      .includes(level)
+      ? level
+      : 'sub';
+
+  host.classList.add(
+    'admin-tabs',
+    `admin-tabs--${normalizedLevel}`,
+  );
+
+  for (
+    const tab of
+    host.querySelectorAll(
+      ':scope > [role="tab"]',
+    )
+  ) {
+    tab.classList.add(
+      'admin-tab',
+    );
+  }
+}
+
 function applyBlockSpan(
   block,
   span = {},
@@ -211,6 +240,11 @@ export function ensureAdminSections({
     return;
   }
 
+  applyAdminTabPrimitive(
+    tabsHost,
+    'primary',
+  );
+
   for (const definition of sections) {
     const tabSelector =
       `[data-admin-section-tab="${definition.id}"]`;
@@ -245,6 +279,10 @@ export function ensureAdminSections({
         tab,
       );
     }
+
+    tab.classList.add(
+      'admin-tab',
+    );
 
     const panelSelector =
       `[data-admin-section-panel="${definition.id}"]`;
@@ -359,6 +397,11 @@ export function ensureAdminTabPanels({
     return;
   }
 
+  applyAdminTabPrimitive(
+    tabsHost,
+    'section',
+  );
+
   for (
     const definition of
     definitions
@@ -384,7 +427,7 @@ export function ensureAdminTabPanels({
           'button',
         );
       tab.className =
-        'task-tab';
+        'task-tab admin-tab';
       tab.id =
         `interface-tab-${definition.id}`;
       tab.type =
@@ -408,6 +451,10 @@ export function ensureAdminTabPanels({
         tab,
       );
     }
+
+    tab.classList.add(
+      'admin-tab',
+    );
 
     let panel =
       panelsHost.querySelector(
@@ -572,6 +619,12 @@ export function ensureAdminTabGroup({
     }
   }
 
+  applyAdminTabPrimitive(
+    host,
+    definition.visualLevel ??
+      'sub',
+  );
+
   if (
     !host.hasChildNodes()
   ) {
@@ -590,6 +643,9 @@ export function ensureAdminTabGroup({
       appendClassNames(
         tab,
         definition.tabClass,
+      );
+      tab.classList.add(
+        'admin-tab',
       );
       tab.setAttribute(
         definition.tabAttribute,

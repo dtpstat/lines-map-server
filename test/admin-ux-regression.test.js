@@ -532,3 +532,80 @@ test('desktop admin layout minimizes nested scrolling and exposes compact empty 
     /point-type-row-details admin-config-block[\s\S]*point-type-summary admin-config-summary/u,
   );
 });
+
+
+test('admin tabs use one shared primitive while preserving the three visual levels', async () => {
+  const [
+    html,
+    layout,
+    layoutCss,
+    schema,
+    projectCss,
+    reportCss,
+    security,
+    securityCss,
+  ] = await Promise.all([
+    read('admin/index.html'),
+    read('admin/admin-layout.js'),
+    read('admin/admin-layout.css'),
+    read('admin/admin-layout-schema.js'),
+    read('admin/project-settings.css'),
+    read('admin/report-config.css'),
+    read('admin/security-editor-v2.js'),
+    read('admin/security-v2.css'),
+  ]);
+
+  assert.match(
+    html,
+    /admin-primary-tabs admin-tabs admin-tabs--primary/u,
+  );
+  assert.match(
+    html,
+    /task-tabs admin-tabs admin-tabs--section/u,
+  );
+  assert.match(
+    html,
+    /operation-tabs admin-tabs admin-tabs--sub/u,
+  );
+  assert.match(
+    layoutCss,
+    /\.admin-tabs--primary[\s\S]*\.admin-tabs--section[\s\S]*\.admin-tabs--sub/u,
+  );
+  assert.match(
+    layout,
+    /applyAdminTabPrimitive\([\s\S]*'primary'[\s\S]*applyAdminTabPrimitive\([\s\S]*'section'/u,
+  );
+  assert.match(
+    layout,
+    /definition\.visualLevel[\s\S]*'sub'/u,
+  );
+  assert.match(
+    schema,
+    /visualLevel:\s*'sub'[\s\S]*stateKey:\s*'project-settings'/u,
+  );
+  assert.match(
+    schema,
+    /visualLevel:\s*'sub'[\s\S]*stateKey:\s*'report-view'/u,
+  );
+  assert.match(
+    schema,
+    /visualLevel:\s*'section'[\s\S]*stateKey:\s*'security-settings'/u,
+  );
+  assert.match(
+    security,
+    /security-tabs admin-tabs admin-tabs--section/u,
+  );
+
+  assert.doesNotMatch(
+    projectCss,
+    /\.project-settings-tabs button\[aria-selected="true"\]/u,
+  );
+  assert.doesNotMatch(
+    reportCss,
+    /\.report-view-tab\[aria-selected="true"\]/u,
+  );
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-tabs button\[aria-selected="true"\]/u,
+  );
+});

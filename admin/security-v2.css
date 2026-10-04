@@ -59,16 +59,12 @@
 .security-tabs {
   margin: 1rem 0;
   display: flex;
-  gap: .45rem;
   flex: 0 0 auto;
   flex-wrap: wrap;
-  padding: .35rem;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #0c1417;
 }
-.security-tabs button { flex: 1 1 10rem; background: transparent; color: var(--muted); border: 1px solid transparent; }
-.security-tabs button[aria-selected="true"] { color: var(--text); border-color: #37756f; background: var(--accent-dark); }
+.security-tabs > .admin-tab {
+  flex: 1 1 10rem;
+}
 .security-panel { min-height: 0; }
 .security-panel:not([hidden]) { flex: 1 1 0; }
 .security-panel[hidden] { display: none; }

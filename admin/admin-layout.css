@@ -69,3 +69,100 @@
     grid-column: 1 / -1;
   }
 }
+
+
+/*
+ * Shared three-level tab primitives.
+ *
+ * level 1 / primary: top-level admin sections;
+ * level 2 / section: modes inside one admin section;
+ * level 3 / sub: operations/views inside a selected mode.
+ *
+ * Domain classes remain as layout hooks only; colors, active states and
+ * typography belong here so the hierarchy stays visually consistent.
+ */
+.admin-tabs {
+  min-width: 0;
+  gap: var(--admin-tabs-gap, .4rem);
+}
+
+.admin-tabs > .admin-tab {
+  min-width: 0;
+  border: 1px solid transparent;
+  color: var(--muted);
+  background: transparent;
+  font-weight: 750;
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+.admin-tabs > .admin-tab:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--admin-tab-hover-bg, var(--panel-2));
+  filter: none;
+}
+
+.admin-tabs > .admin-tab[aria-selected="true"] {
+  border-color: var(--admin-tab-active-border, #37756f);
+  color: var(--text);
+  background: var(--admin-tab-active-bg, var(--accent-dark));
+  box-shadow: var(--admin-tab-active-shadow, none);
+}
+
+.admin-tabs > .admin-tab:disabled {
+  cursor: not-allowed;
+  opacity: .42;
+}
+
+.admin-tabs > .admin-tab[aria-selected="true"]:disabled {
+  opacity: 1;
+}
+
+.admin-tabs--primary {
+  --admin-tabs-gap: .55rem;
+  --admin-tab-active-border: #37756f;
+  --admin-tab-active-bg: var(--accent-dark);
+}
+
+.admin-tabs--primary > .admin-tab {
+  min-width: 11rem;
+  padding: .72rem 1rem;
+  border-color: var(--line);
+  border-radius: 9px;
+  background: #101a1e;
+}
+
+.admin-tabs--section {
+  --admin-tabs-gap: .4rem;
+  --admin-tab-active-border: #37756f;
+  --admin-tab-active-bg: var(--accent-dark);
+  padding: .3rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #0c1417;
+}
+
+.admin-tabs--section > .admin-tab {
+  padding: .65rem .5rem;
+  border-radius: 8px;
+  font-size: .78rem;
+}
+
+.admin-tabs--sub {
+  --admin-tabs-gap: .35rem;
+  --admin-tab-hover-bg: #172328;
+  --admin-tab-active-border: #355d66;
+  --admin-tab-active-bg: #193039;
+  --admin-tab-active-shadow:
+    inset 0 0 0 1px rgb(53 93 102 / 24%);
+  padding: .3rem;
+  border: 1px solid #233840;
+  border-radius: 10px;
+  background: #0e171a;
+}
+
+.admin-tabs--sub > .admin-tab {
+  padding: .52rem .7rem;
+  border-radius: 7px;
+  font-size: .72rem;
+}

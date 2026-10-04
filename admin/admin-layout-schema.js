@@ -154,6 +154,8 @@ export const adminInterfaceTabs = [
     description:
       'Название, оформление, метаданные, аналитика и информационный блок проекта.',
     tabs: {
+      visualLevel:
+        'sub',
       stateKey:
         'project-settings',
       defaultId:
@@ -331,6 +333,8 @@ export const adminInterfaceTabs = [
     panelClass:
       'report-interface-panel',
     tabs: {
+      visualLevel:
+        'sub',
       stateKey:
         'report-view',
       defaultId:
@@ -508,6 +512,8 @@ export const adminInterfaceTabs = [
 
 export const adminSecuritySettingsLayout = {
   tabs: {
+    visualLevel:
+      'section',
     stateKey:
       'security-settings',
     defaultId:
