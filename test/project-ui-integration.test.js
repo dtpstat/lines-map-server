@@ -516,7 +516,7 @@ test('public history makes the active moment explicit and collapsing always retu
   );
   assert.match(
     publicCss,
-    /\.geometry-timeline-toggle \{[\s\S]*grid-template-columns: 16px auto[\s\S]*border-radius: 21px/u,
+    /\.geometry-timeline-toggle \{[^}]*grid-template-columns: 16px auto[^}]*border-radius: var\(--history-toggle-radius\)/u,
   );
   assert.match(
     publicCss,
@@ -569,7 +569,7 @@ test('all public themes own map history panels buttons and indicators', async ()
 
   assert.match(
     publicCss,
-    /\.geometry-timeline-bar \{[\s\S]*var\(--history-panel-bg\)[\s\S]*var\(--history-panel-radius\)/u,
+    /\.geometry-timeline-bar \{[^}]*border-radius: var\(--history-panel-radius\)[^}]*background: var\(--history-panel-bg\)/u,
   );
   assert.match(
     publicCss,

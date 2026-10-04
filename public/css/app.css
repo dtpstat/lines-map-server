@@ -211,7 +211,7 @@ h1 {
 .category-button:focus-visible,
 .city-link:focus-visible,
 th button:focus-visible {
-  outline: 3px solid var(--history-focus);
+  outline: 3px solid #84d6dd;
   outline-offset: 2px;
 }
 
