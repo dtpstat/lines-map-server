@@ -197,7 +197,7 @@ if (typeof document !== 'undefined') {
                     <input name="cityMarkerIcon" type="file" accept="image/png" data-dirty-ignore>
                     <small>Квадратный PNG 16×16…256×256 px, не более 256 КБ. Прозрачность поддерживается.</small>
                   </label>
-                  <div class="project-city-marker-actions">
+                  <div class="project-city-marker-actions admin-actions">
                     <button type="button" id="project-city-marker-upload" disabled>Загрузить иконку</button>
                     <button type="button" class="secondary" id="project-city-marker-reset">Стандартная</button>
                   </div>

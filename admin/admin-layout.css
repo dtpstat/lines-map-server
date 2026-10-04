@@ -278,3 +278,62 @@
   border-radius: var(--admin-help-radius, 8px);
   background: var(--admin-help-bg, #0d171a);
 }
+
+
+/*
+ * Shared action and badge primitives.
+ */
+.admin-actions {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--admin-actions-gap, .45rem);
+}
+
+.admin-actions--end {
+  justify-content: flex-end;
+}
+
+.admin-actions--stretch {
+  justify-content: stretch;
+}
+
+.admin-actions--stretch > button {
+  flex: 1 1 0;
+}
+
+.admin-actions--compact {
+  --admin-actions-gap: .3rem;
+}
+
+.admin-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--admin-badges-gap, .35rem);
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--admin-badge-padding, .15rem .4rem);
+  border: 1px solid var(--admin-badge-border, var(--line));
+  border-radius: 999px;
+  color: var(--admin-badge-color, inherit);
+  background: var(--admin-badge-bg, transparent);
+  font-size: var(--admin-badge-font-size, .62rem);
+  font-weight: var(--admin-badge-font-weight, 800);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.admin-badge.is-warning {
+  --admin-badge-color: #e4b86a;
+  --admin-badge-border: #795d31;
+}
+
+.admin-badge.is-danger {
+  --admin-badge-color: var(--danger);
+  --admin-badge-border: var(--danger);
+}

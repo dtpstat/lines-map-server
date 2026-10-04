@@ -206,10 +206,6 @@
   background: #101b1f;
 }
 .osm-boundary-primary-actions {
-  min-width: 0;
-  display: flex;
-  justify-content: stretch;
-  gap: .3rem;
   white-space: nowrap;
 }
 .osm-boundary-primary-actions button {
@@ -393,13 +389,7 @@
   }
 }
 
-.osm-boundary-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .45rem;
-  align-items: center;
-  justify-content: flex-end;
-}
+.osm-boundary-toolbar { }
 .osm-boundary-draft-count {
   color: var(--muted);
   font-size: .7rem;

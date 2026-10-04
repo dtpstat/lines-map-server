@@ -22,12 +22,7 @@
   gap: .8rem;
 }
 
-.geometry-editor-heading-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: .45rem;
-}
+.geometry-editor-heading-actions { }
 
 .geometry-editor-heading-actions button,
 .geometry-editor-heading-actions .secondary-link {
@@ -411,9 +406,8 @@
 }
 
 .geometry-merge-mode-actions {
+  --admin-actions-gap: .4rem;
   flex: 0 0 auto;
-  display: flex;
-  gap: .4rem;
 }
 
 .geometry-merge-mode-actions button {

@@ -247,11 +247,7 @@
   background: #f2f5f5;
 }
 
-.project-city-marker-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .45rem;
-}
+.project-city-marker-actions { }
 
 .project-city-marker-actions button {
   width: auto;

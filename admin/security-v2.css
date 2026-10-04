@@ -164,10 +164,9 @@
 .security-user-detail-heading h3 { margin-bottom: .15rem; }
 .security-user-detail-heading p,
 .security-section-heading p { color: var(--muted); margin: 0; }
-.security-user-badges { display: flex; gap: .35rem; flex-wrap: wrap; justify-content: end; }
-.security-user-badges span { padding: .15rem .4rem; border: 1px solid var(--line); border-radius: 999px; font-size: .62rem; font-weight: 800; }
-.security-user-badges .is-warning { color: #e4b86a; border-color: #795d31; }
-.security-user-badges .is-danger { color: var(--danger); border-color: var(--danger); }
+.security-user-badges {
+  justify-content: flex-end;
+}
 .security-detail-form { display: grid; gap: .9rem; margin-top: .9rem; }
 .security-detail-form fieldset,
 .security-settings-form fieldset { border: 1px solid var(--line); border-radius: 10px; padding: .58rem .65rem; }
@@ -229,7 +228,9 @@
   color: var(--danger);
 }
 .security-access-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.security-access-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.security-access-actions {
+  --admin-actions-gap: .5rem;
+}
 .security-inline-block-form { margin-top: .7rem; display: grid; grid-template-columns: 12rem minmax(0,1fr) auto; gap: .5rem; align-items: end; }
 .security-inline-block-form[hidden] { display: none; }
 .security-block-reason,.security-info,.security-muted { color: var(--muted); font-size: .75rem; }
@@ -988,16 +989,13 @@ body.security-modal-open { overflow: hidden; }
 }
 
 .security-ip-allowlist-system-badge {
-  display: inline-flex;
-  align-items: center;
+  --admin-badge-padding: .08rem .35rem;
+  --admin-badge-border: rgb(82 215 198 / 35%);
+  --admin-badge-color: #bffaf2;
+  --admin-badge-bg: rgb(82 215 198 / 10%);
+  --admin-badge-font-size: .58rem;
+  --admin-badge-font-weight: 700;
   margin-left: .35rem;
-  padding: .08rem .35rem;
-  border: 1px solid rgb(82 215 198 / 35%);
-  border-radius: 999px;
-  color: #bffaf2;
-  background: rgb(82 215 198 / 10%);
-  font-size: .58rem;
-  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .04em;
 }

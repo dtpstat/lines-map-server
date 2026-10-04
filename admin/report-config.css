@@ -309,10 +309,7 @@
   white-space: nowrap;
 }
 
-.report-row-actions {
-  display: flex;
-  gap: .3rem;
-}
+.report-row-actions { }
 
 .report-formatting-box {
   min-width: 0;

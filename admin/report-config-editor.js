@@ -606,7 +606,7 @@ if (form) {
       title.append(nameLabel, key);
 
       const metricActions = document.createElement('span');
-      metricActions.className = 'report-row-actions';
+      metricActions.className = 'report-row-actions admin-actions admin-actions--compact';
       const upMetric = document.createElement('button');
       upMetric.type = 'button';
       upMetric.className = 'secondary report-small-button';
@@ -739,7 +739,7 @@ if (form) {
         );
 
         const operationActions = document.createElement('span');
-        operationActions.className = 'report-row-actions';
+        operationActions.className = 'report-row-actions admin-actions admin-actions--compact';
         const upOperation = document.createElement('button');
         upOperation.type = 'button';
         upOperation.className = 'secondary report-small-button';
@@ -1021,7 +1021,7 @@ if (form) {
       size.addEventListener('change', () => { rule.fontSizeStep = Number(size.value); });
 
       const actions = document.createElement('div');
-      actions.className = 'report-row-actions';
+      actions.className = 'report-row-actions admin-actions admin-actions--compact';
       const up = document.createElement('button');
       up.type = 'button';
       up.className = 'secondary report-small-button';
@@ -1163,7 +1163,7 @@ if (form) {
       }
 
       const actions = document.createElement('div');
-      actions.className = 'report-row-actions';
+      actions.className = 'report-row-actions admin-actions admin-actions--compact';
       const up = document.createElement('button');
       up.type = 'button';
       up.className = 'secondary report-small-button';
@@ -1287,7 +1287,7 @@ if (form) {
       });
 
       const actions = document.createElement('div');
-      actions.className = 'report-row-actions';
+      actions.className = 'report-row-actions admin-actions admin-actions--compact';
       const up = document.createElement('button');
       up.type = 'button';
       up.className = 'secondary report-small-button';

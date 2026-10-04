@@ -790,3 +790,103 @@ test('admin tables pagination messages and help use shared primitives', async ()
     /\.report-config-message\s*\{[^}]*(?:^|[;{]\s*)color:\s*var\(--warning\)/mu,
   );
 });
+
+
+test('admin actions and badges use shared primitives while empty state stays canonical', async () => {
+  const [
+    html,
+    layoutCss,
+    geometryCss,
+    osmCss,
+    project,
+    projectCss,
+    report,
+    reportCss,
+    security,
+    securityCss,
+    adminCss,
+  ] = await Promise.all([
+    read('admin/index.html'),
+    read('admin/admin-layout.css'),
+    read('admin/geometry-editor.css'),
+    read('admin/osm-boundary-editor.css'),
+    read('admin/project-settings-editor.js'),
+    read('admin/project-settings.css'),
+    read('admin/report-config-editor.js'),
+    read('admin/report-config.css'),
+    read('admin/security-editor-v2.js'),
+    read('admin/security-v2.css'),
+    read('admin/admin.css'),
+  ]);
+
+  assert.match(
+    layoutCss,
+    /\.admin-actions[\s\S]*\.admin-actions--end[\s\S]*\.admin-actions--stretch[\s\S]*\.admin-badges[\s\S]*\.admin-badge/u,
+  );
+  assert.match(
+    html,
+    /geometry-editor-heading-actions admin-actions admin-actions--end/u,
+  );
+  assert.match(
+    html,
+    /geometry-merge-mode-actions admin-actions admin-actions--compact/u,
+  );
+  assert.match(
+    html,
+    /osm-boundary-toolbar admin-actions admin-actions--end/u,
+  );
+  assert.match(
+    html,
+    /osm-boundary-primary-actions admin-actions admin-actions--stretch admin-actions--compact/u,
+  );
+  assert.match(
+    project,
+    /project-city-marker-actions admin-actions/u,
+  );
+  assert.match(
+    report,
+    /report-row-actions admin-actions admin-actions--compact/u,
+  );
+  assert.match(
+    security,
+    /security-access-actions admin-actions/u,
+  );
+  assert.match(
+    security,
+    /security-user-badges admin-badges/u,
+  );
+  assert.match(
+    security,
+    /admin-badge is-warning/u,
+  );
+  assert.match(
+    security,
+    /security-ip-allowlist-system-badge admin-badge/u,
+  );
+
+  assert.doesNotMatch(
+    geometryCss,
+    /\.geometry-editor-heading-actions\s*\{[^}]*display:\s*flex/u,
+  );
+  assert.doesNotMatch(
+    osmCss,
+    /\.osm-boundary-toolbar\s*\{[^}]*display:\s*flex/u,
+  );
+  assert.doesNotMatch(
+    projectCss,
+    /\.project-city-marker-actions\s*\{[^}]*display:\s*flex/u,
+  );
+  assert.doesNotMatch(
+    reportCss,
+    /\.report-row-actions\s*\{[^}]*display:\s*flex/u,
+  );
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-user-badges\s*\{[^}]*display:\s*flex/u,
+  );
+
+  assert.match(
+    adminCss,
+    /\.empty-state\s*\{[^}]*color:\s*var\(--muted\)/u,
+  );
+});

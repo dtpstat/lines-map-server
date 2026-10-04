@@ -1030,12 +1030,12 @@ if (
     detail.innerHTML = `
       <div class="security-user-detail-heading admin-heading admin-heading--responsive">
         <div><h3>${user.displayName || user.username}</h3><p>@${user.username}</p></div>
-        <div class="security-user-badges">
-          ${user.isBootstrap ? '<span>BOOTSTRAP</span>' : ''}
-          ${user.isSuperuser ? '<span>SUPERUSER</span>' : ''}
-          ${user.mustChangePassword ? '<span class="is-warning">TEMP PASSWORD</span>' : ''}
-          ${user.mfaEnabled ? '<span>MFA</span>' : ''}
-          ${blocked ? '<span class="is-danger">BLOCKED</span>' : ''}
+        <div class="security-user-badges admin-badges">
+          ${user.isBootstrap ? '<span class="admin-badge">BOOTSTRAP</span>' : ''}
+          ${user.isSuperuser ? '<span class="admin-badge">SUPERUSER</span>' : ''}
+          ${user.mustChangePassword ? '<span class="admin-badge is-warning">TEMP PASSWORD</span>' : ''}
+          ${user.mfaEnabled ? '<span class="admin-badge">MFA</span>' : ''}
+          ${blocked ? '<span class="admin-badge is-danger">BLOCKED</span>' : ''}
         </div>
       </div>
       <form id="security-user-detail-form" class="security-detail-form">
@@ -1075,7 +1075,7 @@ if (
       </form>
       <section class="security-access-section">
         <h4>Доступ</h4>
-        <div class="security-access-actions">
+        <div class="security-access-actions admin-actions">
           <button type="button" class="secondary" id="security-temp-password">Создать временный пароль</button>
           ${currentUser.isSuperuser && user.mfaEnabled && !isSelf
             ? '<button type="button" class="danger" id="security-user-mfa-reset">Сбросить MFA</button>'
@@ -3165,7 +3165,7 @@ if (
                 'span',
               );
             badge.className =
-              'security-ip-allowlist-system-badge';
+              'security-ip-allowlist-system-badge admin-badge';
             badge.textContent =
               'Системный';
             networkCell.append(
