@@ -103,7 +103,7 @@ test('project settings storage owns singleton read and update SQL', async () => 
     /^UPDATE project_settings/u,
   );
   assert.deepEqual(
-    database.queries[2].values.slice(-7),
+    database.queries[2].values.slice(9, 16),
     [500000, 250, true, true, false, true, '2000-01-01'],
   );
   assert.match(

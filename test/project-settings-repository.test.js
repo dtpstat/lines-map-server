@@ -127,6 +127,12 @@ test('project settings repository reads and updates the singleton row', async ()
     true,
     true,
     null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
   ]);
   const firstUpdateIndex = calls.findIndex((call) =>
     /UPDATE\s+project_settings/i.test(call.text),
