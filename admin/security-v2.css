@@ -294,15 +294,8 @@ button.danger { background: #51211f; border-color: #8e3a36; color: #ffd0cc; }
 .security-filter-actions { display: flex; gap: .4rem; align-items: end; }
 .security-filter-actions button { padding: .48rem .6rem; }
 .security-audit-table-wrap {
-  min-width: 0;
-  min-height: 0;
-  height: 100%;
+  --admin-table-wrap-radius: 10px;
   max-height: none;
-  overflow: auto;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable both-edges;
-  border: 1px solid var(--line);
-  border-radius: 10px;
 }
 .security-audit-table {
   width: 100%;
@@ -446,7 +439,7 @@ body.security-modal-open { overflow: hidden; }
 .security-json-boolean { color: #f1a66f; }
 .security-json-null { color: #bc9cec; }
 .mini-button { padding: .25rem .4rem; font-size: .65rem; }
-.security-pagination { display: flex; align-items: center; justify-content: center; gap: .7rem; margin-top: .7rem; }
+.security-pagination { }
 
 #security-panel-security:not([hidden]) {
   overflow: auto;
@@ -460,9 +453,11 @@ body.security-modal-open { overflow: hidden; }
 .security-ip-block-form { display: grid; grid-template-columns: minmax(0,1fr); gap: .5rem; align-items: end; }
 .security-ip-blocks { margin-top: .8rem; }
 .security-ip-block-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: .5rem; align-items: center; padding: .65rem 0; border-bottom: 1px solid var(--line); }
-.security-message { min-height: 1.2rem; flex: 0 0 auto; color: var(--muted); font-size: .78rem; }
-.security-message.is-success { color: var(--success); }
-.security-message.is-error { color: var(--danger); }
+.security-message {
+  --admin-message-min-height: 1.2rem;
+  flex: 0 0 auto;
+  font-size: .78rem;
+}
 
 @media (max-width: 1050px) {
   #security-users-audit-host { flex: 0 0 auto; overflow: visible; }
@@ -956,11 +951,7 @@ body.security-modal-open { overflow: hidden; }
 }
 
 .security-block-table-wrap {
-  min-width: 0;
-  overflow: auto;
   margin-top: .6rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
 }
 
 .security-block-table {
@@ -976,13 +967,9 @@ body.security-modal-open { overflow: hidden; }
 }
 
 .security-ip-block-pagination {
-  margin-top: .45rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .55rem;
-  color: var(--muted);
-  font-size: .68rem;
+  --admin-pagination-gap: .55rem;
+  --admin-pagination-margin-top: .45rem;
+  --admin-pagination-font-size: .68rem;
 }
 
 .security-ip-block-pagination button {

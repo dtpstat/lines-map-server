@@ -277,13 +277,6 @@
   display: grid;
   gap: .45rem;
   margin: .7rem 0 0;
-  padding: .7rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #0d171a;
-  color: var(--muted);
-  font-size: .7rem;
-  line-height: 1.45;
 }
 
 .project-settings-help code {
@@ -317,17 +310,9 @@
 }
 
 .project-settings-message {
-  min-height: 1.3rem;
+  --admin-message-min-height: 1.3rem;
+  --admin-message-color: var(--warning);
   margin: .7rem 0 0;
-  color: var(--warning);
-}
-
-.project-settings-message.is-success {
-  color: var(--success);
-}
-
-.project-settings-message.is-error {
-  color: var(--danger);
 }
 
 @container admin-layout-block (max-width: 64rem) {

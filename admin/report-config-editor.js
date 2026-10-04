@@ -48,7 +48,7 @@ if (
       <button class="task-action report-save-button"
               type="submit">Сохранить и пересчитать</button>
     </form>
-    <p class="report-config-message"
+    <p class="report-config-message admin-message"
        id="report-config-message"
        role="status"></p>
     <p class="notice"
@@ -178,7 +178,7 @@ if (form) {
 
   function setMessage(text, tone = '') {
     message.textContent = text;
-    message.className = `report-config-message${tone ? ` is-${tone}` : ''}`;
+    message.className = `report-config-message admin-message${tone ? ` is-${tone}` : ''}`;
   }
 
   function setView(view) {

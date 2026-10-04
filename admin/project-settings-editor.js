@@ -86,7 +86,7 @@ if (typeof document !== 'undefined') {
             </div>
             <button class="task-action" type="submit" data-project-settings-submit>Сохранить настройки проекта</button>
           </form>
-          <p class="project-settings-message" id="project-settings-message" role="status"></p>
+          <p class="project-settings-message admin-message" id="project-settings-message" role="status"></p>
 `;
 
       if (mapPanel) {
@@ -212,7 +212,7 @@ if (typeof document !== 'undefined') {
         <button class="task-action" type="submit"
                 form="project-settings-form"
                 data-project-settings-submit>Сохранить настройки карты</button>
-        <p class="project-settings-message"
+        <p class="project-settings-message admin-message"
            data-project-settings-message role="status"></p>
       `;
 
@@ -364,7 +364,7 @@ if (typeof document !== 'undefined') {
                           placeholder="<h2>О проекте</h2>\n<p>Описание проекта…</p>"></textarea>
               </label>
 
-              <div class="project-settings-help">
+              <div class="project-settings-help admin-help admin-help--boxed">
                 <div><strong>Разрешённые теги:</strong> <code id="project-allowed-tags">загрузка…</code></div>
                 <div><strong>Стили проекта:</strong> <code id="project-allowed-classes">загрузка…</code></div>
                 <div>Inline style, script, iframe, обработчики событий и неизвестные классы сервер не принимает.</div>
@@ -384,7 +384,7 @@ if (typeof document !== 'undefined') {
     <small>Ошибки приложения записываются в errors.log, нарушения и security markers — в security.log.</small>
   </label>
 
-  <div class="project-settings-help">
+  <div class="project-settings-help admin-help admin-help--boxed">
     <div><strong>Каталог:</strong> <code id="project-file-log-directory">загрузка…</code></div>
     <div><strong>Файлы:</strong> <code>errors.log</code> · <code>security.log</code></div>
     <div>Каталог создаётся администратором ОС заранее. Node-процесс не требует root и при ошибке записи продолжает работу, сообщая проблему в stderr/journald.</div>
@@ -421,7 +421,7 @@ if (typeof document !== 'undefined') {
     <small>Рекомендуется для production.</small>
   </label>
 
-  <div class="project-settings-help">
+  <div class="project-settings-help admin-help admin-help--boxed">
     <strong>Важно:</strong> параметры этой панели deployment-local и намеренно не входят в экспорт/импорт настроек проекта.
     Внешний system logrotate из <code>ops/logrotate/</code> используется как аварийная страховка от неконтролируемого роста файлов.
   </div>
@@ -547,7 +547,7 @@ if (typeof document !== 'undefined') {
         for (const message of messages) {
           message.textContent = text;
           message.className =
-            `project-settings-message${tone ? ` is-${tone}` : ''}`;
+            `project-settings-message admin-message${tone ? ` is-${tone}` : ''}`;
         }
       }
 

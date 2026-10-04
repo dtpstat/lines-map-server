@@ -705,3 +705,88 @@ test('admin cards and headings use shared visual primitives without domain chrom
     /\.mode-heading\s*\{[^}]*display:\s*flex/u,
   );
 });
+
+
+test('admin tables pagination messages and help use shared primitives', async () => {
+  const [
+    layoutCss,
+    project,
+    projectCss,
+    report,
+    reportCss,
+    security,
+    securityCss,
+  ] = await Promise.all([
+    read('admin/admin-layout.css'),
+    read('admin/project-settings-editor.js'),
+    read('admin/project-settings.css'),
+    read('admin/report-config-editor.js'),
+    read('admin/report-config.css'),
+    read('admin/security-editor-v2.js'),
+    read('admin/security-v2.css'),
+  ]);
+
+  assert.match(
+    layoutCss,
+    /\.admin-table-wrap[\s\S]*\.admin-pagination[\s\S]*\.admin-message[\s\S]*\.admin-help/u,
+  );
+
+  assert.match(
+    security,
+    /security-audit-table-wrap admin-table-wrap admin-table-wrap--fill/u,
+  );
+  assert.match(
+    security,
+    /security-block-table-wrap admin-table-wrap/u,
+  );
+  assert.match(
+    security,
+    /security-pagination admin-pagination/u,
+  );
+  assert.match(
+    security,
+    /security-ip-block-pagination admin-pagination/u,
+  );
+  assert.match(
+    security,
+    /security-message admin-message/u,
+  );
+
+  assert.match(
+    project,
+    /project-settings-message admin-message/u,
+  );
+  assert.match(
+    project,
+    /project-settings-help admin-help admin-help--boxed/u,
+  );
+  assert.match(
+    report,
+    /report-config-message admin-message/u,
+  );
+  assert.match(
+    report,
+    /report-priority-help admin-help/u,
+  );
+  assert.match(
+    report,
+    /report-empty admin-help/u,
+  );
+
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-audit-table-wrap\s*\{[^}]*border:\s*1px solid var\(--line\)/u,
+  );
+  assert.doesNotMatch(
+    securityCss,
+    /\.security-block-table-wrap\s*\{[^}]*border:\s*1px solid var\(--line\)/u,
+  );
+  assert.doesNotMatch(
+    projectCss,
+    /\.project-settings-help\s*\{[^}]*background:\s*#0d171a/u,
+  );
+  assert.doesNotMatch(
+    reportCss,
+    /\.report-config-message\s*\{[^}]*color:\s*var\(--warning\)/u,
+  );
+});

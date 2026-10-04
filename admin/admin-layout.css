@@ -220,3 +220,61 @@
     align-items: stretch;
   }
 }
+
+
+/*
+ * Shared data/status/help primitives.
+ */
+.admin-table-wrap {
+  min-width: 0;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--admin-table-wrap-radius, 8px);
+}
+
+.admin-table-wrap--fill {
+  min-height: 0;
+  height: 100%;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable both-edges;
+}
+
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--admin-pagination-gap, .7rem);
+  margin-top: var(--admin-pagination-margin-top, .7rem);
+  color: var(--muted);
+  font-size: var(--admin-pagination-font-size, .72rem);
+}
+
+.admin-message {
+  min-height: var(--admin-message-min-height, 1.2rem);
+  color: var(--admin-message-color, var(--muted));
+}
+
+.admin-message.is-success {
+  color: var(--success);
+}
+
+.admin-message.is-error {
+  color: var(--danger);
+}
+
+.admin-message.is-warning {
+  color: var(--warning);
+}
+
+.admin-help {
+  color: var(--muted);
+  font-size: var(--admin-help-font-size, .7rem);
+  line-height: 1.45;
+}
+
+.admin-help--boxed {
+  padding: var(--admin-help-padding, .7rem);
+  border: 1px solid var(--line);
+  border-radius: var(--admin-help-radius, 8px);
+  background: var(--admin-help-bg, #0d171a);
+}

@@ -461,17 +461,9 @@
 }
 
 .report-config-message {
-  min-height: 1.3rem;
+  --admin-message-min-height: 1.3rem;
+  --admin-message-color: var(--warning);
   margin: .7rem 0 0;
-  color: var(--warning);
-}
-
-.report-config-message.is-success {
-  color: var(--success);
-}
-
-.report-config-message.is-error {
-  color: var(--danger);
 }
 
 @container admin-layout-block (max-width: 90rem) {

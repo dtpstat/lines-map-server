@@ -44,7 +44,7 @@ async function api(path, options = {}) {
 function setMessage(element, text, tone = '') {
   if (!element) return;
   element.textContent = text;
-  element.className = `security-message${tone ? ` is-${tone}` : ''}`;
+  element.className = `security-message admin-message${tone ? ` is-${tone}` : ''}`;
 }
 
 function formatDate(value) {
@@ -236,7 +236,7 @@ if (
             <p class="empty-state">Выберите пользователя слева.</p>
           </section>
         </div>
-        <p id="security-users-message" class="security-message" role="status"></p>
+        <p id="security-users-message" class="security-message admin-message" role="status"></p>
     `;
   }
 
@@ -267,7 +267,7 @@ if (
             </div>
           </form>
         </details>
-        <div class="security-audit-table-wrap">
+        <div class="security-audit-table-wrap admin-table-wrap admin-table-wrap--fill">
           <table class="security-audit-table">
             <thead><tr>
               <th>Время</th><th>Пользователь</th><th>IP</th><th>Событие</th>
@@ -278,12 +278,12 @@ if (
             <tbody id="security-audit-body"></tbody>
           </table>
         </div>
-        <div class="security-pagination">
+        <div class="security-pagination admin-pagination">
           <button type="button" class="secondary" id="security-audit-prev">← Назад</button>
           <span id="security-audit-page">1</span>
           <button type="button" class="secondary" id="security-audit-next">Вперёд →</button>
         </div>
-        <p id="security-audit-message" class="security-message" role="status"></p>
+        <p id="security-audit-message" class="security-message admin-message" role="status"></p>
     `;
   }
 
@@ -425,7 +425,7 @@ if (
                 IPv4 или IPv6
               </small>
             </form>
-            <p id="security-ip-message" class="security-message" role="status"></p>
+            <p id="security-ip-message" class="security-message admin-message" role="status"></p>
           </section>
     `;
   }
@@ -473,7 +473,7 @@ if (
     status.id =
       'security-settings-status';
     status.className =
-      'security-message';
+      'security-message admin-message';
     status.setAttribute(
       'role',
       'status',
@@ -703,7 +703,7 @@ if (
                  placeholder="203.0.113…">
         </label>
       </div>
-      <div class="security-block-table-wrap">
+      <div class="security-block-table-wrap admin-table-wrap">
         <table class="security-block-table security-ip-block-table">
           <thead>
             <tr>
@@ -728,7 +728,7 @@ if (
           <tbody id="security-ip-blocks-body"></tbody>
         </table>
       </div>
-      <div class="security-ip-block-pagination">
+      <div class="security-ip-block-pagination admin-pagination">
         <button type="button"
                 class="secondary"
                 id="security-ip-block-prev">
@@ -742,7 +742,7 @@ if (
         </button>
       </div>
       <p id="security-ip-blocks-message"
-         class="security-message"
+         class="security-message admin-message"
          role="status"></p>
     `;
     right.append(
@@ -778,7 +778,7 @@ if (
         </label>
         <button type="submit">Добавить</button>
       </form>
-      <div class="security-block-table-wrap">
+      <div class="security-block-table-wrap admin-table-wrap">
         <table class="security-block-table security-ip-allowlist-table">
           <thead>
             <tr>
@@ -794,7 +794,7 @@ if (
          class="security-info security-ip-allowlist-preview"
          role="status"></p>
       <p id="security-ip-allowlist-message"
-         class="security-message"
+         class="security-message admin-message"
          role="status"></p>
     `;
     left.append(
