@@ -133,7 +133,7 @@ MAPBOX_ACCESS_TOKEN=pk....
 
 ## Миграции
 
-Текущий набор: `V001…V055`.
+Текущий набор: `V001…V066`.
 
 Последние migrations:
 
@@ -176,6 +176,17 @@ V052__covered_geometry_spatial_relink.sql
 V053__covered_descendant_spatial_relink.sql
 V054__admin_metrics_settings.sql
 V055__admin_mfa.sql
+V056__admin_mfa_policy.sql
+V057__geometry_visibility_timeline.sql
+V058__geometry_discussions.sql
+V059__public_geometry_type_visibility.sql
+V060__point_type_zoom_range.sql
+V061__geometry_history_mode.sql
+V062__geometry_discussion_read_state.sql
+V063__admin_discussion_subjects.sql
+V064__normalize_admin_discussion_read_state_fk.sql
+V065__admin_ip_allowlist.sql
+V066__project_file_logging.sql
 ```
 
 Назначение `V023…V053`:

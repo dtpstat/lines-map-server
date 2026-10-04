@@ -21,6 +21,12 @@ function createRepository() {
     showGeometryTimeline: false,
     largeCityPopulationThreshold: 400000,
     largeCityAreaKm2Threshold: null,
+    fileLoggingEnabled: false,
+    fileLogRotateMaxSizeMb: 50,
+    fileLogRotateInterval: 'daily',
+    fileLogRetentionDays: 30,
+    fileLogMaxArchives: 30,
+    fileLogCompress: true,
     publicDownloadName: 'bus-lanes',
     mapboxAccessTokenConfigured: false,
     updatedAt: '2026-09-05T12:00:00.000Z',
@@ -37,6 +43,18 @@ function createRepository() {
           settings.largeCityPopulationThreshold,
         largeCityAreaKm2Threshold =
           settings.largeCityAreaKm2Threshold,
+        fileLoggingEnabled =
+          settings.fileLoggingEnabled,
+        fileLogRotateMaxSizeMb =
+          settings.fileLogRotateMaxSizeMb,
+        fileLogRotateInterval =
+          settings.fileLogRotateInterval,
+        fileLogRetentionDays =
+          settings.fileLogRetentionDays,
+        fileLogMaxArchives =
+          settings.fileLogMaxArchives,
+        fileLogCompress =
+          settings.fileLogCompress,
         ...base
       } = payload;
       settings = {
@@ -46,6 +64,12 @@ function createRepository() {
         showGeometryTimeline,
         largeCityPopulationThreshold,
         largeCityAreaKm2Threshold,
+        fileLoggingEnabled,
+        fileLogRotateMaxSizeMb,
+        fileLogRotateInterval,
+        fileLogRetentionDays,
+        fileLogMaxArchives,
+        fileLogCompress,
         publicDownloadName: settings.publicDownloadName,
         mapboxAccessTokenConfigured: Boolean(mapboxAccessToken),
         updatedAt: '2026-09-05T13:00:00.000Z',
@@ -89,6 +113,11 @@ async function withServer(callback, options = {}) {
     maxBodyBytes: 1024 * 1024,
     afterPublicDownloadNameSave: options.afterPublicDownloadNameSave,
     afterSettingsSave: options.afterSettingsSave,
+    afterFileLoggingSave: options.afterFileLoggingSave,
+    fileLoggingConfig:
+      options.fileLoggingConfig ?? {
+        directory: '/var/log/test-project',
+      },
   }));
   const server = http.createServer(app);
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
@@ -115,6 +144,20 @@ test('public project settings are readable while admin editor remains protected'
     assert.equal(publicSettings.publicDownloadName, 'bus-lanes');
     assert.equal(publicSettings.yandexMetrikaId, null);
     assert.equal(publicSettings.googleAnalyticsId, null);
+    assert.equal(
+      Object.hasOwn(
+        publicSettings,
+        'fileLoggingEnabled',
+      ),
+      false,
+    );
+    assert.equal(
+      Object.hasOwn(
+        publicSettings,
+        'fileLogRotateMaxSizeMb',
+      ),
+      false,
+    );
 
     const unauthorized = await fetch(`${baseUrl}/api/admin/project-settings`);
     assert.equal(unauthorized.status, 401);
@@ -128,6 +171,14 @@ test('public project settings are readable while admin editor remains protected'
     assert.equal(payload.settings.showLinePopups, true);
     assert.equal(payload.settings.publicDownloadName, 'bus-lanes');
     assert.equal(payload.editor.publicDownloadName.maxLength, 120);
+    assert.equal(
+      payload.editor.fileLogging.directory,
+      '/var/log/test-project',
+    );
+    assert.deepEqual(
+      payload.editor.fileLogging.files,
+      ['errors.log', 'security.log'],
+    );
     assert.ok(payload.editor.tags.includes('h2'));
     assert.ok(payload.editor.classes.includes('project-callout'));
     assert.deepEqual(
@@ -346,4 +397,62 @@ test('admin still rejects invalid analytics and unsafe footer HTML', async () =>
     assert.equal(invalidHtml.status, 400);
     assert.match((await invalidHtml.json()).error, /not allowed/);
   });
+});
+
+
+test('admin project settings reconfigure file logging without making it portable/public', async () => {
+  let received = null;
+
+  await withServer(async (baseUrl) => {
+    const response =
+      await fetch(
+        `${baseUrl}/api/admin/project-settings`,
+        {
+          method: 'PUT',
+          headers: {
+            Cookie: authorization,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            projectName: 'Выделенные полосы в России',
+            keywords: ['транспорт'],
+            footerHtml: '<p>Описание</p>',
+            yandexMetrikaId: null,
+            googleAnalyticsId: null,
+            fileLoggingEnabled: true,
+            fileLogRotateMaxSizeMb: 64,
+            fileLogRotateInterval: 'weekly',
+            fileLogRetentionDays: 90,
+            fileLogMaxArchives: 20,
+            fileLogCompress: false,
+          }),
+        },
+      );
+
+    assert.equal(response.status, 200);
+    const payload = await response.json();
+    assert.equal(payload.settings.fileLoggingEnabled, true);
+    assert.equal(payload.settings.fileLogRotateMaxSizeMb, 64);
+    assert.equal(payload.settings.fileLogRotateInterval, 'weekly');
+    assert.deepEqual(
+      payload.fileLogging,
+      {
+        configured: true,
+        operational: true,
+        directory: '/var/log/test-project',
+      },
+    );
+  }, {
+    async afterFileLoggingSave(settings) {
+      received = settings;
+      return {
+        configured: settings.fileLoggingEnabled,
+        operational: true,
+        directory: '/var/log/test-project',
+      };
+    },
+  });
+
+  assert.equal(received.fileLoggingEnabled, true);
+  assert.equal(received.fileLogRetentionDays, 90);
 });

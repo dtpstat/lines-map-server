@@ -110,7 +110,7 @@ HTTP_PORT=3002
 
 ## Миграции
 
-Текущая последовательность: `V001…V049`.
+Текущая последовательность: `V001…V066`.
 
 Последние изменения:
 
@@ -159,8 +159,9 @@ HTTP_PORT=3002
 | `V061` | geometry history start date и playback speed profiles |
 | `V062…V064` | discussion read state и generic geometry/OSM subjects |
 | `V065` | admin IPv4/IPv6 CIDR allowlist |
+| `V066` | настройки файловых журналов ошибок/security и их ротации |
 
-Текущий migration tail: **V065**. Следующая migration: **V066+**.
+Текущий migration tail: **V066**. Следующая migration: **V067+**.
 Уже опубликованные migrations не редактируются задним числом.
 
 История хранится в:

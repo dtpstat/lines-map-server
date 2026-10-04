@@ -145,7 +145,8 @@ CHECK (ID = 1)
 
 Здесь находятся project metadata, analytics, theme, line labels/popups,
 public Point/Line/Polygon visibility, geometry timeline/start date, Mapbox
-token, city marker и `PUBLIC_DOWNLOAD_NAME`.
+token, city marker, `PUBLIC_DOWNLOAD_NAME` и deployment-local policy
+файловых журналов/rotation.
 
 Все поля читаются по `ID=1`; дополнительные indexes бессмысленны.
 
@@ -312,10 +313,11 @@ V054-V056             metrics/MFA policy state
 V058/V062-V064        discussions + read state
 V061                  geometry history speed profiles
 V065                  admin IP allowlist + CIDR GiST
+V066                  singleton file-log/rotation settings; новых indexes нет
 ```
 
-Текущий migration tail — **V065**; следующее schema/index изменение оформляется
-новой migration **V066+**. Опубликованные migrations не переписываются.
+Текущий migration tail — **V066**; следующее schema/index изменение оформляется
+новой migration **V067+**. Опубликованные migrations не переписываются.
 
 ## Итог
 

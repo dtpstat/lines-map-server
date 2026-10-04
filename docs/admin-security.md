@@ -12,7 +12,8 @@ V018__admin_sessions_roles_profile_and_ip_security.sql
 
 Последующие migrations расширяют ту же security infrastructure. Текущий
 security-related tail включает V047/V048 request-security state, V054 metrics,
-V055/V056 MFA и mandatory-MFA policy, а V065 добавляет управляемый IP allowlist.
+V055/V056 MFA и mandatory-MFA policy, V065 управляемый IP allowlist, а V066 —
+deployment-local policy файловых журналов ошибок/security.
 
 ## Аутентификация
 
@@ -431,8 +432,8 @@ npm run admin:unblock -- --ip 203.0.113.10
 - [project-settings-transfer.md](project-settings-transfer.md)
 - [geometry-editor.md](geometry-editor.md)
 
-Текущий migration tail — `V065__admin_ip_allowlist.sql`. Следующее новое DB
-schema change должно использовать следующий свободный номер после V065; уже
+Текущий migration tail — `V066__project_file_logging.sql`. Следующее новое DB
+schema change должно использовать следующий свободный номер после V066; уже
 опубликованные migrations задним числом не изменяются.
 
 
