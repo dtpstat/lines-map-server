@@ -3,7 +3,7 @@ import test from 'node:test';
 import {
   aggregateBoundaryBranchStatus,
   buildBoundaryTreeIndex,
-} from '../admin/osm-boundary-editor.js';
+} from '../admin/osm-boundary-tree-model.js';
 
 const tree = [
   { id: 1, parentId: null, active: false, displayName: 'Регион' },
