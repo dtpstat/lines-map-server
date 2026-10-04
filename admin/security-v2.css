@@ -823,11 +823,6 @@ body.security-modal-open { overflow: hidden; }
   flex: 1 1 auto;
 }
 
-.security-block-policy,
-.security-ip-panel,
-.security-ip-blocks-panel,
-.security-ip-allowlist-panel {
-}
 
 .security-block-policy {
   display: grid;
