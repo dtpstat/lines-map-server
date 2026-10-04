@@ -4,6 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { createApp } from '../src/app.js';
+import { createTestAppDefaults } from '../src/testing/app-defaults.js';
 import {
   DTPSTAT_API_VERSION,
   DTPSTAT_API_VERSION_HEADER,
@@ -195,7 +196,14 @@ async function withServer(callback, options = {}) {
         return osmCityUpdateResult;
       },
     });
+  const testDefaults = createTestAppDefaults({
+    importApi: {
+      username: 'importer',
+      password: 'test:secret',
+    },
+  });
   const app = createApp({
+    defaults: testDefaults,
     adminTasks: options.adminTasks,
     repository: options.repository ?? createTestRepository(),
     projectSettingsRepository: options.projectSettingsRepository,

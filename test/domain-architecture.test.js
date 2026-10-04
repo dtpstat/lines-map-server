@@ -3206,7 +3206,7 @@ test('stream upload HTTP adapter delegates transport policy and spool persistenc
 });
 
 
-test('application composition delegates test-only defaults to the testing module', async () => {
+test('application composition keeps test-only defaults outside production imports', async () => {
   const app = await fs.readFile(
     path.join(srcRoot, 'app.js'),
     'utf8',
@@ -3216,13 +3216,13 @@ test('application composition delegates test-only defaults to the testing module
     'utf8',
   );
 
-  assert.match(
+  assert.doesNotMatch(
     app,
-    /createTestAppDefaults\(/u,
+    /src\/testing|\.\/testing\/|createTestAppDefaults/u,
   );
   assert.match(
     app,
-    /config\.environment === 'test'/u,
+    /defaults\s*=\s*\{\}/u,
   );
   assert.doesNotMatch(
     app,

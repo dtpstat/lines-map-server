@@ -87,6 +87,7 @@ const DEFAULT_FACTORIES =
     createProjectSettingsTransferRuntime,
     createReportConfigRuntime,
     createSecurityRuntime,
+    createRuntimeMetrics,
   });
 
 /**
@@ -247,9 +248,10 @@ export function createServerRuntime({
         reportConfigService,
       });
   const metrics =
-    createRuntimeMetrics({
-      pool,
-    });
+    runtimeFactories
+      .createRuntimeMetrics({
+        pool,
+      });
 
   const bootstrapDependencies = {
     config,

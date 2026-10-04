@@ -168,6 +168,20 @@ test('server runtime exposes explicit bootstrap app and admin dependency slices'
       );
     };
 
+  factories.createRuntimeMetrics =
+    (options) => {
+      assert.equal(
+        options.pool,
+        pool,
+      );
+      calls.push(
+        'createRuntimeMetrics',
+      );
+      return value(
+        'createRuntimeMetrics',
+      );
+    };
+
   factories.createSecurityRuntime =
     (
       receivedPool,
@@ -269,6 +283,7 @@ test('server runtime exposes explicit bootstrap app and admin dependency slices'
       'createAdminTaskSuccessRepository',
       'createSecurityRuntime',
       'createDerivedStateRefresh',
+      'createRuntimeMetrics',
     ],
   );
 

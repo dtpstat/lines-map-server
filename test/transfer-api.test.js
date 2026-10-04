@@ -10,6 +10,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
 import { createApp } from '../src/app.js';
+import { createTestAppDefaults } from '../src/testing/app-defaults.js';
 import {
   DTPSTAT_API_VERSION,
   DTPSTAT_API_VERSION_HEADER,
@@ -161,7 +162,9 @@ function withStreamingMethod(service, streamingName, legacyName) {
 }
 
 async function withServer(callback, overrides = {}) {
+  const runtimeConfig = config();
   const app = createApp({
+    defaults: createTestAppDefaults(runtimeConfig),
     repository: repository(),
     exportRepository: overrides.exportRepository ?? {
       async exportCityBoundaries() { return citySnapshot; },
@@ -191,7 +194,7 @@ async function withServer(callback, overrides = {}) {
     ),
     kmlUpdateService: { async update() { return {}; } },
     osmCityUpdateService: { async update() { return {}; } },
-    config: config(),
+    config: runtimeConfig,
   });
   const server = http.createServer(app);
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));

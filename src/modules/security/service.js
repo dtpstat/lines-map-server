@@ -15,11 +15,29 @@ import {
 } from './mfa-service.js';
 
 /**
- * Compatibility application façade for admin security.
+ * Domain aggregate for admin security use cases.
  *
- * The public service shape stays stable while authentication, account
- * management, security administration and audit evolve independently.
+ * The aggregate keeps one public service boundary while authentication,
+ * account management, MFA, security administration and audit remain focused
+ * services. Duplicate public method names are rejected instead of silently
+ * overriding one slice with another.
  */
+function mergeSecuritySlices(...slices) {
+  const aggregate = {};
+
+  for (const slice of slices) {
+    for (const [name, value] of Object.entries(slice)) {
+      if (Object.hasOwn(aggregate, name)) {
+        throw new TypeError(
+          `Admin security service method collision: ${name}`,
+        );
+      }
+      aggregate[name] = value;
+    }
+  }
+
+  return aggregate;
+}
 export function createAdminSecurityService(
   repository,
   options = {},
@@ -73,11 +91,11 @@ export function createAdminSecurityService(
       },
     );
 
-  return {
-    ...authentication,
-    ...mfa,
-    ...accounts,
-    ...administration,
-    ...audit,
-  };
+  return mergeSecuritySlices(
+    authentication,
+    mfa,
+    accounts,
+    administration,
+    audit,
+  );
 }

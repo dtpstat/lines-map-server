@@ -15,9 +15,6 @@ import {
   createAdminTaskManager,
 } from './shared/tasks/admin-task-manager.js';
 import {
-  createTestAppDefaults,
-} from './testing/app-defaults.js';
-import {
   createRuntimeMetrics,
 } from './observability/runtime-metrics.js';
 
@@ -53,6 +50,7 @@ import {
  *   realtimeEvents?: { publish: Function },
  *   notificationEvents?: { publish: Function },
  *   metrics?: ReturnType<typeof createRuntimeMetrics>,
+ *   defaults?: object,
  *   config: any
  * }} dependencies
  */
@@ -87,19 +85,13 @@ export function createApp({
   realtimeEvents,
   notificationEvents,
   metrics,
+  defaults = {},
   config,
 }) {
   const app = express();
   const effectiveMetrics =
     metrics ??
     createRuntimeMetrics();
-
-  const testDefaults =
-    config.environment === 'test'
-      ? createTestAppDefaults(
-        config,
-      )
-      : null;
 
   const effectiveLineTypesRepository =
     lineTypesRepository ??
@@ -139,7 +131,7 @@ export function createApp({
 
   const effectiveAdminAuth =
     adminAuth ??
-    testDefaults?.adminAuth;
+    defaults?.adminAuth;
 
   const effectiveSecurityService =
     securityService ??
