@@ -585,7 +585,7 @@ test('all public themes own map history panels buttons and indicators', async ()
   );
   assert.match(
     publicCss,
-    /\.mapboxgl-ctrl-group \{[\s\S]*var\(--map-control-bg\)[\s\S]*var\(--map-control-radius\)/u,
+    /\.mapboxgl-ctrl-group \{[^}]*border-radius: var\(--map-control-radius\)[^}]*background: var\(--map-control-bg\)/u,
   );
 
   assert.match(retroCss, /--history-panel-radius:\s*0/u);
