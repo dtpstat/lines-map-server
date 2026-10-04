@@ -20,7 +20,7 @@ export function registerAdminTaskRoutes(router, {
           streaming: true,
           zip: {
             entries: 1,
-            zip64: false,
+            zip64: true,
             compressionMethods: ['store', 'deflate'],
           },
           limits: {

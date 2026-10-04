@@ -14,7 +14,7 @@ import {
   replaceCoordinateSequence,
   translateGeometry,
 } from './geometry-coordinate-model.js';
-import { publishDerivedDataChange } from './derived-data-events.js';
+import { publishDerivedDataChange } from '../js/shared/derived-data-events.js';
 import {
   createMentionAutocomplete,
   renderMentionText,

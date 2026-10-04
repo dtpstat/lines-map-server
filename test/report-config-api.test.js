@@ -82,10 +82,12 @@ async function withServer(callback, options = {}) {
     adminAuth,
     securityService,
     maxBodyBytes: 1024 * 1024,
-    afterSave: async () => {
-      afterSaveCalls += 1;
-      return { csvBytes: 123, cityCount: 12 };
-    },
+    afterSave:
+      options.afterSave ??
+      (async () => {
+        afterSaveCalls += 1;
+        return { csvBytes: 123, cityCount: 12 };
+      }),
   }));
   app.use((error, _request, response, _next) => {
     response.status(500).json({ error: error.message });
@@ -224,5 +226,33 @@ test('saving report rejects arbitrary technical field names', async () => {
     assert.equal(response.status, 400);
     assert.match((await response.json()).error, /not allowed/);
     assert.equal(state.afterSaveCalls(), 0);
+  });
+});
+
+
+test('report save remains successful when post-commit public snapshot refresh fails', async () => {
+  await withServer(async (baseUrl) => {
+    const config = structuredClone(DEFAULT_REPORT_CONFIG);
+    const response = await fetch(`${baseUrl}/api/admin/report-config`, {
+      method: 'PUT',
+      headers: {
+        Cookie: authorization,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(editableReportConfig(config)),
+    });
+
+    assert.equal(response.status, 200);
+    const payload = await response.json();
+    assert.equal(payload.snapshots, null);
+    assert.deepEqual(payload.warnings, [{
+      phase: 'public-downloads',
+      message: 'snapshot refresh failed',
+    }]);
+    assert.equal(payload.materialized.cities, 12);
+  }, {
+    async afterSave() {
+      throw new Error('snapshot refresh failed');
+    },
   });
 });

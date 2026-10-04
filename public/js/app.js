@@ -9,7 +9,7 @@ import {
   loadViewportGeometries,
 } from './api.js';
 import { createCityList } from './city-list.js';
-import { subscribeDerivedDataChanges } from '../../admin/derived-data-events.js';
+import { subscribeDerivedDataChanges } from './shared/derived-data-events.js';
 import {
   createMapController,
 } from './map-controller.js';
@@ -64,41 +64,41 @@ const cityTable = document.querySelector('.city-table');
 const cityTableHead = cityTable?.querySelector('thead');
 
 function ensureTableStatus() {
-  const existingStatus = document.querySelector('#status');
-  const existingBody = existingStatus?.closest('tbody.city-table-status');
+  const status =
+    document.querySelector(
+      '#status',
+    );
+  const body =
+    status?.closest(
+      'tbody.city-table-status',
+    );
 
-  if (existingStatus?.tagName === 'TD' && existingBody) {
-    existingBody.hidden = true;
-    existingStatus.hidden = true;
-    if (cityTableHead && existingBody.previousElementSibling !== cityTableHead) {
-      cityTableHead.after(existingBody);
-    }
-    return { status: existingStatus, body: existingBody };
+  if (
+    status?.tagName !== 'TD' ||
+    !body ||
+    !cityTableHead
+  ) {
+    throw new Error(
+      'Public city table status markup is missing or invalid',
+    );
   }
 
-  // Compatibility with a server process that still has the previous index.html
-  // template cached in memory: remove the old status paragraph from the header
-  // and create the status row in the table without requiring a server restart.
-  existingStatus?.remove();
-
-  const body = document.createElement('tbody');
-  body.className = 'city-table-status';
   body.hidden = true;
-
-  const row = document.createElement('tr');
-  const status = document.createElement('td');
-  status.id = 'status';
-  status.className = 'status column-city';
-  status.setAttribute('role', 'status');
-  status.setAttribute('aria-live', 'polite');
-  status.colSpan = 1;
   status.hidden = true;
 
-  row.append(status);
-  body.append(row);
-  cityTableHead?.after(body);
+  if (
+    body.previousElementSibling !==
+    cityTableHead
+  ) {
+    throw new Error(
+      'Public city table status row must follow the table header',
+    );
+  }
 
-  return { status, body };
+  return {
+    status,
+    body,
+  };
 }
 
 const { status: tableStatus, body: tableStatusBody } = ensureTableStatus();

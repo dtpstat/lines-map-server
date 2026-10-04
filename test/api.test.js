@@ -594,6 +594,11 @@ test('admin config exposes safe ENV defaults and exact OSM URLs', async () => {
     assert.deepEqual(config.kmlUpdate.defaults, {
       cityBufferMeters: 0,
     });
+    assert.deepEqual(config.transfer.zip, {
+      entries: 1,
+      zip64: true,
+      compressionMethods: ['store', 'deflate'],
+    });
     assert.doesNotMatch(JSON.stringify(config), /password/i);
   });
 });

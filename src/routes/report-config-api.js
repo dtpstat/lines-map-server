@@ -85,12 +85,27 @@ export function createReportConfigRouter({
           { reportConfig: previousConfig },
           { reportConfig: result.config },
         );
-        const snapshots = await afterSave(result);
+        let snapshots = null;
+        const warnings = [];
+        try {
+          snapshots =
+            await afterSave(result) ??
+            null;
+        } catch (error) {
+          warnings.push({
+            phase: 'public-downloads',
+            message:
+              error instanceof Error
+                ? error.message
+                : String(error),
+          });
+        }
         response.set('Cache-Control', 'no-store');
         response.json({
           config: result.config,
           materialized: result.materialized,
-          snapshots: snapshots ?? null,
+          snapshots,
+          warnings,
         });
       } catch (error) {
         if (error instanceof ReportConfigValidationError) {

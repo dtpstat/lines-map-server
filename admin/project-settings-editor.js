@@ -1,4 +1,4 @@
-import { publishDerivedDataChange } from './derived-data-events.js';
+import { publishDerivedDataChange } from '../js/shared/derived-data-events.js';
 import { adminConfirm } from './admin-dialog.js';
 import { trackDirtyForm } from './admin-dirty-state.js';
 import {

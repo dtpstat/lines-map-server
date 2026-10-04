@@ -456,3 +456,52 @@ test('admin project settings reconfigure file logging without making it portable
   assert.equal(received.fileLoggingEnabled, true);
   assert.equal(received.fileLogRetentionDays, 90);
 });
+
+
+test('project settings save reports post-commit runtime failures as warnings', async () => {
+  await withServer(async (baseUrl) => {
+    const response = await fetch(`${baseUrl}/api/admin/project-settings`, {
+      method: 'PUT',
+      headers: {
+        Cookie: authorization,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        projectName: 'Выделенные полосы в России',
+        themePreset: 'classic',
+        showLineLabels: false,
+        showLinePopups: true,
+        largeCityPopulationThreshold: 500000,
+        largeCityAreaKm2Threshold: 250,
+        keywords: ['транспорт'],
+        yandexMetrikaId: null,
+        googleAnalyticsId: null,
+        footerHtml: '<p>Текст</p>',
+      }),
+    });
+
+    assert.equal(response.status, 200);
+    const payload = await response.json();
+    assert.equal(payload.settings.largeCityPopulationThreshold, 500000);
+    assert.equal(payload.derivedRecalculated, true);
+    assert.equal(payload.derived, null);
+    assert.equal(payload.fileLogging, null);
+    assert.deepEqual(payload.warnings, [
+      {
+        phase: 'file-logging',
+        message: 'logger reconfigure failed',
+      },
+      {
+        phase: 'derived-state',
+        message: 'derived refresh failed',
+      },
+    ]);
+  }, {
+    async afterFileLoggingSave() {
+      throw new Error('logger reconfigure failed');
+    },
+    async afterSettingsSave() {
+      throw new Error('derived refresh failed');
+    },
+  });
+});

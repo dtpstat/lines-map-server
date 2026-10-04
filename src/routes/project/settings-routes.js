@@ -106,20 +106,49 @@ export function registerProjectSettingsAdminRoutes(
           await projectSettingsRepository
             .save(request.body);
 
-        const fileLogging =
-          afterFileLoggingSave
-            ? await afterFileLoggingSave(settings)
-            : null;
+        const warnings = [];
+        let fileLogging = null;
+        if (afterFileLoggingSave) {
+          try {
+            fileLogging =
+              await afterFileLoggingSave(
+                settings,
+              ) ?? null;
+          } catch (error) {
+            warnings.push({
+              phase: 'file-logging',
+              message:
+                error instanceof Error
+                  ? error.message
+                  : String(error),
+            });
+          }
+        }
 
         const derivedRecalculated =
           projectSettingsAffectDerivedState(
             previousSettings,
             settings,
           );
-        const derived =
-          derivedRecalculated
-            ? await afterSettingsSave?.()
-            : null;
+        let derived = null;
+        if (
+          derivedRecalculated &&
+          afterSettingsSave
+        ) {
+          try {
+            derived =
+              await afterSettingsSave() ??
+              null;
+          } catch (error) {
+            warnings.push({
+              phase: 'derived-state',
+              message:
+                error instanceof Error
+                  ? error.message
+                  : String(error),
+            });
+          }
+        }
 
         recordAdminOperationChanges(
           response,
@@ -137,6 +166,7 @@ export function registerProjectSettingsAdminRoutes(
           derived,
           derivedRecalculated,
           fileLogging,
+          warnings,
         });
       } catch (error) {
         if (

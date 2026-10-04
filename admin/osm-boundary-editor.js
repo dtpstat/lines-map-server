@@ -1,7 +1,7 @@
 import { adminAvatarObjectUrl } from './admin-avatar.js';
 import { adminConfirm } from './admin-dialog.js';
 import { createDraftStore } from './draft-store.js';
-import { publishDerivedDataChange } from './derived-data-events.js';
+import { publishDerivedDataChange } from '../js/shared/derived-data-events.js';
 import {
   createMentionAutocomplete,
   renderMentionText,
