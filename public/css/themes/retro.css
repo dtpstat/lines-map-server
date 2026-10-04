@@ -9,6 +9,32 @@
   --line: #aaa;
   --panel: #fff;
   --selected: #fff400;
+  --history-text: #111;
+  --history-panel-bg: #fff;
+  --history-panel-border: #888;
+  --history-panel-radius: 0;
+  --history-panel-shadow: none;
+  --history-panel-backdrop: none;
+  --history-button-bg: #d6d6d6;
+  --history-button-bg-hover: #ececec;
+  --history-button-fg: #111;
+  --history-button-border: #777;
+  --history-button-shadow: none;
+  --history-button-backdrop: none;
+  --history-toggle-radius: 0;
+  --history-play-radius: 0;
+  --history-collapse-radius: 0;
+  --history-select-bg: #fff;
+  --history-select-border: #888;
+  --history-select-radius: 0;
+  --history-track: #aaa;
+  --history-indicator: #0645ad;
+  --history-focus: #000;
+  --map-control-bg: #fff;
+  --map-control-bg-hover: #e6e6e6;
+  --map-control-border: #888;
+  --map-control-radius: 0;
+  --map-control-shadow: none;
 }
 
 a {
@@ -296,7 +322,7 @@ th button:focus-visible {
 }
 
 .mapboxgl-ctrl-group {
-  border-radius: 0;
+  border-radius: var(--map-control-radius);
 }
 
 @media (max-width: 760px) {

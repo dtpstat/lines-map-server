@@ -12,6 +12,32 @@
   --line: #d6dfde;
   --panel: #ffffff;
   --selected: #ffdf75;
+  --history-text: #23383b;
+  --history-panel-bg: rgb(255 255 255 / 78%);
+  --history-panel-border: rgb(11 72 80 / 16%);
+  --history-panel-radius: 12px;
+  --history-panel-shadow: 0 8px 26px rgb(22 55 59 / 18%);
+  --history-panel-backdrop: blur(7px);
+  --history-button-bg: rgb(14 112 122 / 90%);
+  --history-button-bg-hover: rgb(8 83 91 / 94%);
+  --history-button-fg: #fff;
+  --history-button-border: rgb(11 72 80 / 18%);
+  --history-button-shadow: 0 4px 16px rgb(22 55 59 / 18%);
+  --history-button-backdrop: blur(5px);
+  --history-toggle-radius: 21px;
+  --history-play-radius: 50%;
+  --history-collapse-radius: 8px;
+  --history-select-bg: rgb(255 255 255 / 86%);
+  --history-select-border: #b8ccca;
+  --history-select-radius: 7px;
+  --history-track: #b8ccca;
+  --history-indicator: var(--accent);
+  --history-focus: #84d6dd;
+  --map-control-bg: #fff;
+  --map-control-bg-hover: #f2f7f6;
+  --map-control-border: rgb(11 72 80 / 16%);
+  --map-control-radius: 9px;
+  --map-control-shadow: 0 4px 16px rgb(22 55 59 / 14%);
 }
 
 * {
@@ -185,7 +211,7 @@ h1 {
 .category-button:focus-visible,
 .city-link:focus-visible,
 th button:focus-visible {
-  outline: 3px solid #84d6dd;
+  outline: 3px solid var(--history-focus);
   outline-offset: 2px;
 }
 
@@ -372,7 +398,7 @@ th button:focus-visible {
   bottom: 14px;
   display: flex;
   align-items: center;
-  color: #23383b;
+  color: var(--history-text);
 }
 
 .geometry-timeline[hidden] {
@@ -384,13 +410,13 @@ th button:focus-visible {
 .geometry-timeline-collapse {
   display: grid;
   place-items: center;
-  border: 1px solid rgb(11 72 80 / 18%);
-  color: #fff;
-  background: rgb(14 112 122 / 90%);
+  border: 1px solid var(--history-button-border);
+  color: var(--history-button-fg);
+  background: var(--history-button-bg);
   cursor: pointer;
   line-height: 1;
-  box-shadow: 0 4px 16px rgb(22 55 59 / 18%);
-  backdrop-filter: blur(5px);
+  box-shadow: var(--history-button-shadow);
+  backdrop-filter: var(--history-button-backdrop);
 }
 
 .geometry-timeline-toggle {
@@ -400,7 +426,7 @@ th button:focus-visible {
   padding: 0 12px 0 10px;
   grid-template-columns: 16px auto;
   gap: 8px;
-  border-radius: 21px;
+  border-radius: var(--history-toggle-radius);
   font-size: .74rem;
   font-weight: 800;
   white-space: nowrap;
@@ -418,7 +444,7 @@ th button:focus-visible {
   height: 0;
   border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
-  border-left: 11px solid #fff;
+  border-left: 11px solid var(--history-button-fg);
   content: "";
   transform: translateX(1px);
 }
@@ -443,18 +469,19 @@ th button:focus-visible {
   gap: 8px;
   align-items: center;
   padding: 6px 8px;
-  border: 1px solid rgb(11 72 80 / 16%);
-  border-radius: 12px;
-  background: rgb(255 255 255 / 78%);
-  box-shadow: 0 8px 26px rgb(22 55 59 / 18%);
-  backdrop-filter: blur(7px);
+  border: 1px solid var(--history-panel-border);
+  border-radius: var(--history-panel-radius);
+  color: var(--history-text);
+  background: var(--history-panel-bg);
+  box-shadow: var(--history-panel-shadow);
+  backdrop-filter: var(--history-panel-backdrop);
 }
 
 .geometry-timeline-play {
   width: 34px;
   height: 34px;
   padding: 0;
-  border-radius: 50%;
+  border-radius: var(--history-play-radius);
   font-size: .9rem;
 }
 
@@ -462,14 +489,14 @@ th button:focus-visible {
   width: 30px;
   height: 30px;
   padding: 0;
-  border-radius: 8px;
+  border-radius: var(--history-collapse-radius);
   font-size: 1.2rem;
 }
 
 .geometry-timeline-toggle:hover,
 .geometry-timeline-play:hover,
 .geometry-timeline-collapse:hover {
-  background: rgb(8 83 91 / 94%);
+  background: var(--history-button-bg-hover);
 }
 
 .geometry-timeline-speed-label {
@@ -479,10 +506,10 @@ th button:focus-visible {
 .geometry-timeline-speed-label select {
   min-width: 74px;
   padding: 5px 7px;
-  border: 1px solid #b8ccca;
-  border-radius: 7px;
-  color: #23383b;
-  background: rgb(255 255 255 / 86%);
+  border: 1px solid var(--history-select-border);
+  border-radius: var(--history-select-radius);
+  color: var(--history-text);
+  background: var(--history-select-bg);
   font: inherit;
   font-size: .75rem;
 }
@@ -500,8 +527,38 @@ th button:focus-visible {
   width: 100%;
   min-width: 0;
   margin: 0;
-  accent-color: var(--accent);
+  accent-color: var(--history-indicator);
   cursor: pointer;
+}
+
+.geometry-timeline input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--history-track);
+}
+
+.geometry-timeline input[type="range"]::-webkit-slider-thumb {
+  margin-top: -5px;
+  border-color: var(--history-indicator);
+  background: var(--history-indicator);
+}
+
+.geometry-timeline input[type="range"]::-moz-range-track {
+  height: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--history-track);
+}
+
+.geometry-timeline input[type="range"]::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--history-indicator);
+}
+
+.geometry-timeline input[type="range"]::-moz-range-thumb {
+  border-color: var(--history-indicator);
+  background: var(--history-indicator);
 }
 
 .geometry-timeline-toggle:focus-visible,
@@ -541,8 +598,19 @@ th button:focus-visible {
 }
 
 .mapboxgl-ctrl-group {
-  border-radius: 9px;
   overflow: hidden;
+  border: 1px solid var(--map-control-border);
+  border-radius: var(--map-control-radius);
+  background: var(--map-control-bg);
+  box-shadow: var(--map-control-shadow);
+}
+
+.mapboxgl-ctrl-group button {
+  background-color: var(--map-control-bg);
+}
+
+.mapboxgl-ctrl-group button:hover {
+  background-color: var(--map-control-bg-hover);
 }
 
 .visually-hidden {

@@ -10,6 +10,32 @@
   --line: #d3e0dd;
   --panel: #f9fbfa;
   --selected: #e5eee3;
+  --history-text: #274144;
+  --history-panel-bg: rgb(249 252 251 / 88%);
+  --history-panel-border: #c8ddda;
+  --history-panel-radius: 16px;
+  --history-panel-shadow: 0 12px 30px rgb(38 68 69 / 16%);
+  --history-panel-backdrop: blur(12px);
+  --history-button-bg: #d9ebe7;
+  --history-button-bg-hover: #cae3de;
+  --history-button-fg: #244649;
+  --history-button-border: #bdd7d2;
+  --history-button-shadow: inset 0 0 0 1px rgb(255 255 255 / 55%), 0 5px 14px rgb(47 82 80 / 10%);
+  --history-button-backdrop: blur(8px);
+  --history-toggle-radius: 14px;
+  --history-play-radius: 10px;
+  --history-collapse-radius: 10px;
+  --history-select-bg: #f7fbfa;
+  --history-select-border: #c6dad6;
+  --history-select-radius: 10px;
+  --history-track: #bfd5d0;
+  --history-indicator: #356f70;
+  --history-focus: #8bb9b5;
+  --map-control-bg: rgb(249 252 251 / 94%);
+  --map-control-bg-hover: #e4f0ed;
+  --map-control-border: #c9dcda;
+  --map-control-radius: 12px;
+  --map-control-shadow: 0 5px 18px rgb(35 64 63 / 14%);
 }
 
 body {
@@ -178,8 +204,8 @@ th button:focus-visible {
 }
 
 .mapboxgl-ctrl-group {
-  border-radius: 12px;
-  box-shadow: 0 5px 18px rgb(35 64 63 / 14%);
+  border-radius: var(--map-control-radius);
+  box-shadow: var(--map-control-shadow);
 }
 
 .noscript-message {

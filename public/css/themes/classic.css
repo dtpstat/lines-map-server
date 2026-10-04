@@ -8,6 +8,32 @@
   --line: #d6dfde;
   --panel: #fff;
   --selected: #ffdf75;
+  --history-text: #23383b;
+  --history-panel-bg: rgb(255 255 255 / 78%);
+  --history-panel-border: rgb(11 72 80 / 16%);
+  --history-panel-radius: 12px;
+  --history-panel-shadow: 0 8px 26px rgb(22 55 59 / 18%);
+  --history-panel-backdrop: blur(7px);
+  --history-button-bg: rgb(14 112 122 / 90%);
+  --history-button-bg-hover: rgb(8 83 91 / 94%);
+  --history-button-fg: #fff;
+  --history-button-border: rgb(11 72 80 / 18%);
+  --history-button-shadow: 0 4px 16px rgb(22 55 59 / 18%);
+  --history-button-backdrop: blur(5px);
+  --history-toggle-radius: 21px;
+  --history-play-radius: 50%;
+  --history-collapse-radius: 8px;
+  --history-select-bg: rgb(255 255 255 / 86%);
+  --history-select-border: #b8ccca;
+  --history-select-radius: 7px;
+  --history-track: #b8ccca;
+  --history-indicator: #0b6570;
+  --history-focus: #84d6dd;
+  --map-control-bg: #fff;
+  --map-control-bg-hover: #f2f7f6;
+  --map-control-border: rgb(11 72 80 / 16%);
+  --map-control-radius: 9px;
+  --map-control-shadow: 0 4px 16px rgb(22 55 59 / 14%);
 }
 
 /*
@@ -53,8 +79,7 @@
   border-radius: 7px;
 }
 
-.map-message,
-.mapboxgl-ctrl-group {
+.map-message {
   border-radius: 9px;
 }
 

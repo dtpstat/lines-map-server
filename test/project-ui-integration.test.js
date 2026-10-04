@@ -524,8 +524,75 @@ test('public history makes the active moment explicit and collapsing always retu
   );
   assert.match(
     publicCss,
-    /\.geometry-timeline-toggle-icon::before \{[\s\S]*border-left: 11px solid #fff/u,
+    /\.geometry-timeline-toggle-icon::before \{[\s\S]*border-left: 11px solid var\(--history-button-fg\)/u,
   );
+});
+
+test('all public themes own map history panels buttons and indicators', async () => {
+  const [
+    publicCss,
+    retroCss,
+    classicCss,
+    modernCss,
+  ] = await Promise.all([
+    source('public/css/app.css'),
+    source('public/css/themes/retro.css'),
+    source('public/css/themes/classic.css'),
+    source('public/css/themes/modern.css'),
+  ]);
+
+  for (const themeCss of [
+    retroCss,
+    classicCss,
+    modernCss,
+  ]) {
+    for (const token of [
+      '--history-panel-bg',
+      '--history-panel-radius',
+      '--history-button-bg',
+      '--history-button-fg',
+      '--history-toggle-radius',
+      '--history-play-radius',
+      '--history-track',
+      '--history-indicator',
+      '--map-control-bg',
+      '--map-control-radius',
+      '--map-control-shadow',
+    ]) {
+      assert.match(
+        themeCss,
+        new RegExp(`${token.replace('--', '--')}:\\s*[^;]+`, 'u'),
+        token,
+      );
+    }
+  }
+
+  assert.match(
+    publicCss,
+    /\.geometry-timeline-bar \{[\s\S]*var\(--history-panel-bg\)[\s\S]*var\(--history-panel-radius\)/u,
+  );
+  assert.match(
+    publicCss,
+    /\.geometry-timeline-toggle,[\s\S]*var\(--history-button-bg\)[\s\S]*var\(--history-button-fg\)/u,
+  );
+  assert.match(
+    publicCss,
+    /::-webkit-slider-runnable-track[\s\S]*var\(--history-track\)/u,
+  );
+  assert.match(
+    publicCss,
+    /::-moz-range-thumb[\s\S]*var\(--history-indicator\)/u,
+  );
+  assert.match(
+    publicCss,
+    /\.mapboxgl-ctrl-group \{[\s\S]*var\(--map-control-bg\)[\s\S]*var\(--map-control-radius\)/u,
+  );
+
+  assert.match(retroCss, /--history-panel-radius:\s*0/u);
+  assert.match(retroCss, /--history-play-radius:\s*0/u);
+  assert.match(classicCss, /--history-play-radius:\s*50%/u);
+  assert.match(modernCss, /--history-panel-radius:\s*16px/u);
+  assert.match(modernCss, /--history-play-radius:\s*10px/u);
 });
 
 test('retro table hides the low-zoom hint and uses zebra striping', async () => {
