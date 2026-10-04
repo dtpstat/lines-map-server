@@ -685,7 +685,7 @@ if (form) {
       body.append(operationsHeading);
 
       const priorityHelp = document.createElement('p');
-      priorityHelp.className = 'report-priority-help';
+      priorityHelp.className = 'report-priority-help admin-help';
       priorityHelp.textContent = 'Больший уровень выполняется раньше. Одинаковый — слева направо. Порядок строк является частью формулы. Ссылки, создающие очевидный цикл, скрываются.';
       body.append(priorityHelp);
 
@@ -781,7 +781,7 @@ if (form) {
       });
       if (!metric.operations.length) {
         const empty = document.createElement('p');
-        empty.className = 'report-empty';
+        empty.className = 'report-empty admin-help';
         empty.textContent = 'Без дополнительных арифметических операций.';
         operations.append(empty);
       }
@@ -1061,7 +1061,7 @@ if (form) {
     });
     if (!column.formatRules.length) {
       const empty = document.createElement('p');
-      empty.className = 'report-empty';
+      empty.className = 'report-empty admin-help';
       empty.textContent = 'Условное форматирование не задано.';
       list.append(empty);
     }
