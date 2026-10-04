@@ -29,6 +29,8 @@ export function registerProjectSettingsAdminRoutes(
     securityService,
     jsonBody,
     afterSettingsSave,
+    afterFileLoggingSave,
+    fileLoggingConfig,
   },
 ) {
   router.get(
@@ -61,6 +63,14 @@ export function registerProjectSettingsAdminRoutes(
             publicDownloadName: {
               maxLength:
                 PUBLIC_DOWNLOAD_NAME_MAX_LENGTH,
+            },
+            fileLogging: {
+              directory:
+                fileLoggingConfig?.directory ?? null,
+              files: [
+                'errors.log',
+                'security.log',
+              ],
             },
             cityMarkerIcon: {
               mime: 'image/png',
@@ -96,6 +106,11 @@ export function registerProjectSettingsAdminRoutes(
           await projectSettingsRepository
             .save(request.body);
 
+        const fileLogging =
+          afterFileLoggingSave
+            ? await afterFileLoggingSave(settings)
+            : null;
+
         const derivedRecalculated =
           projectSettingsAffectDerivedState(
             previousSettings,
@@ -121,6 +136,7 @@ export function registerProjectSettingsAdminRoutes(
           settings,
           derived,
           derivedRecalculated,
+          fileLogging,
         });
       } catch (error) {
         if (

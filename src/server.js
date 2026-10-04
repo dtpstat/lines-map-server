@@ -18,13 +18,25 @@ import {
   createServerRuntime,
 } from './application/server-runtime.js';
 import {
+  installServiceFileLogSink,
   runServiceOperation,
   serviceErrorDetails,
   serviceLog,
 } from './service-log.js';
+import {
+  createProjectFileLogger,
+} from './observability/project-file-logger.js';
 
 async function main() {
   const config = loadConfig();
+  const projectFileLogger =
+    createProjectFileLogger(
+      config.fileLogging,
+    );
+  installServiceFileLogSink(
+    projectFileLogger.write,
+  );
+
   serviceLog('info', 'startup', {
     pid: process.pid,
     node: process.version,
@@ -70,12 +82,19 @@ async function main() {
     createServerRuntime({
       pool,
       config,
+      projectFileLogger,
     });
 
   const {initialSuccessfulUpdates} =
     await bootstrapServerApplication(
       bootstrapDependencies,
     );
+
+  await projectFileLogger.configure(
+    await appDependencies
+      .projectSettingsRepository
+      .get(),
+  );
 
   const adminRuntime =
     createAdminRuntime({

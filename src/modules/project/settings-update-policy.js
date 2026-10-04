@@ -168,6 +168,39 @@ export function normalizeHistorySpeeds(value) {
   return normalized;
 }
 
+function optionalBoolean(value, field) {
+  if (value === undefined) return null;
+  if (typeof value !== 'boolean') {
+    throw new ProjectSettingsValidationError(field + ' must be boolean');
+  }
+  return value;
+}
+
+function optionalInteger(value, field, min, max) {
+  if (value === undefined) return null;
+  const normalized = Number(value);
+  if (
+    !Number.isSafeInteger(normalized) ||
+    normalized < min ||
+    normalized > max
+  ) {
+    throw new ProjectSettingsValidationError(
+      field + ' must be an integer between ' + min + ' and ' + max,
+    );
+  }
+  return normalized;
+}
+
+function optionalLogInterval(value) {
+  if (value === undefined) return null;
+  if (!['daily', 'weekly'].includes(value)) {
+    throw new ProjectSettingsValidationError(
+      'fileLogRotateInterval must be daily or weekly',
+    );
+  }
+  return value;
+}
+
 export function normalizeProjectSettingsUpdate(payload) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     throw new ProjectSettingsValidationError(
@@ -192,6 +225,12 @@ export function normalizeProjectSettingsUpdate(payload) {
     mapboxAccessToken = null,
     largeCityPopulationThreshold = 400000,
     largeCityAreaKm2Threshold = null,
+    fileLoggingEnabled,
+    fileLogRotateMaxSizeMb,
+    fileLogRotateInterval,
+    fileLogRetentionDays,
+    fileLogMaxArchives,
+    fileLogCompress,
     ...base
   } = payload;
 
@@ -296,5 +335,17 @@ export function normalizeProjectSettingsUpdate(payload) {
     ),
     largeCityPopulationThreshold: populationThreshold,
     largeCityAreaKm2Threshold: areaThreshold,
+    fileLoggingEnabled:
+      optionalBoolean(fileLoggingEnabled, 'fileLoggingEnabled'),
+    fileLogRotateMaxSizeMb:
+      optionalInteger(fileLogRotateMaxSizeMb, 'fileLogRotateMaxSizeMb', 1, 10240),
+    fileLogRotateInterval:
+      optionalLogInterval(fileLogRotateInterval),
+    fileLogRetentionDays:
+      optionalInteger(fileLogRetentionDays, 'fileLogRetentionDays', 1, 3650),
+    fileLogMaxArchives:
+      optionalInteger(fileLogMaxArchives, 'fileLogMaxArchives', 1, 365),
+    fileLogCompress:
+      optionalBoolean(fileLogCompress, 'fileLogCompress'),
   };
 }

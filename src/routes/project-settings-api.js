@@ -35,7 +35,9 @@ import {
  *   securityService: ReturnType<import('../modules/security/service.js').createAdminSecurityService>,
  *   maxBodyBytes: number,
  *   afterPublicDownloadNameSave?: () => Promise<any>,
- *   afterSettingsSave?: () => Promise<any>
+ *   afterSettingsSave?: () => Promise<any>,
+ *   afterFileLoggingSave?: (settings: any) => Promise<any>,
+ *   fileLoggingConfig?: { directory?: string | null }
  * }} dependencies
  */
 export function createProjectSettingsRouter({
@@ -45,6 +47,8 @@ export function createProjectSettingsRouter({
   maxBodyBytes,
   afterPublicDownloadNameSave,
   afterSettingsSave,
+  afterFileLoggingSave,
+  fileLoggingConfig,
 }) {
   const router = Router();
 
@@ -79,6 +83,8 @@ export function createProjectSettingsRouter({
       securityService,
       jsonBody,
       afterSettingsSave,
+      afterFileLoggingSave,
+      fileLoggingConfig,
     },
   );
 

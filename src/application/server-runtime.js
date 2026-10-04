@@ -98,12 +98,14 @@ const DEFAULT_FACTORIES =
  * @param {{
  *   pool: any,
  *   config: any,
+ *   projectFileLogger?: { configure: Function } | null,
  *   factories?: Partial<typeof DEFAULT_FACTORIES>
  * }} dependencies
  */
 export function createServerRuntime({
   pool,
   config,
+  projectFileLogger = null,
   factories = {},
 }) {
   const runtimeFactories = {
@@ -307,6 +309,11 @@ export function createServerRuntime({
             reason:
               'geometry-editor-recalculate',
           }),
+    configureProjectFileLogging:
+      projectFileLogger
+        ? (settings) =>
+            projectFileLogger.configure(settings)
+        : null,
     osmImportSettingsRepository,
     osmBoundaryAdminRepository,
     exportRepository,

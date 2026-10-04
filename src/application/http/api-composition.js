@@ -53,6 +53,7 @@ export function installApplicationApiRoutes(
     refreshProjectDerived,
     refreshOsmBoundaryDerived,
     refreshGeometryDerived,
+    configureProjectFileLogging,
     osmImportSettingsRepository,
     osmBoundaryAdminRepository,
     exportRepository,
@@ -140,6 +141,13 @@ export function installApplicationApiRoutes(
         async () =>
           refreshProjectDerived
             ?.(),
+      afterFileLoggingSave:
+        async (settings) =>
+          configureProjectFileLogging
+            ? await configureProjectFileLogging(settings)
+            : null,
+      fileLoggingConfig:
+        config.fileLogging,
     }),
   );
 

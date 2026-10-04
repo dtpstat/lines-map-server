@@ -1,3 +1,7 @@
+import {
+  sanitizeAdminAuditData,
+} from './shared/logging/admin-audit-details.js';
+
 export const SECURITY_JOURNAL_MARKER =
   'DTPSTAT_SECURITY_V1';
 
@@ -6,6 +10,27 @@ const LEVEL_METHODS = Object.freeze({
   warning: 'warn',
   error: 'error',
 });
+
+let fileLogSink = null;
+
+export function installServiceFileLogSink(sink) {
+  if (sink !== null && typeof sink !== 'function') {
+    throw new TypeError('File log sink must be a function or null');
+  }
+  fileLogSink = sink;
+}
+
+function emitFileLog(kind, record) {
+  if (!fileLogSink) return;
+  try {
+    fileLogSink(kind, record);
+  } catch (error) {
+    console.error(
+      '[service] file-log:sink-error',
+      serviceErrorDetails(error),
+    );
+  }
+}
 
 /** @param {unknown} error */
 export function serviceErrorDetails(error) {
@@ -32,6 +57,18 @@ export function serviceErrorDetails(error) {
 export function serviceLog(level, event, details = {}, output = console) {
   const method = LEVEL_METHODS[level] ?? LEVEL_METHODS.info;
   output[method](`[service] ${event}`, details);
+
+  if (
+    level === 'error' ||
+    (level === 'warning' && details?.status === 'failed')
+  ) {
+    emitFileLog('error', {
+      timestamp: new Date().toISOString(),
+      level,
+      event,
+      details: sanitizeAdminAuditData(details),
+    });
+  }
 }
 
 /**
@@ -44,14 +81,21 @@ export function serviceLog(level, event, details = {}, output = console) {
  * @param {Pick<Console, 'warn'>} [output]
  */
 export function securityLog(event, details = {}, output = console) {
+  const safeDetails = sanitizeAdminAuditData(details);
+  const payload = {
+    marker: SECURITY_JOURNAL_MARKER,
+    event,
+    ...safeDetails,
+  };
+
   output.warn(
-    `[security] ${JSON.stringify({
-      marker:
-        SECURITY_JOURNAL_MARKER,
-      event,
-      ...details,
-    })}`,
+    `[security] ${JSON.stringify(payload)}`,
   );
+
+  emitFileLog('security', {
+    timestamp: new Date().toISOString(),
+    ...payload,
+  });
 }
 
 /**

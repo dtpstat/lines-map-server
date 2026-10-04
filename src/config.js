@@ -200,6 +200,24 @@ function originSetValue(env, name, environment) {
   return origins;
 }
 
+function fileLogProjectName(env, fallback) {
+  const value = env.FILE_LOG_PROJECT_NAME?.trim() || fallback;
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/u.test(value)) {
+    throw new Error(
+      'FILE_LOG_PROJECT_NAME must contain only ASCII letters, digits, dot, underscore or dash',
+    );
+  }
+  return value;
+}
+
+function fileLogRootDirectory(env) {
+  const value = env.FILE_LOG_ROOT_DIR?.trim() || '/var/log';
+  if (!path.isAbsolute(value)) {
+    throw new Error('FILE_LOG_ROOT_DIR must be an absolute path');
+  }
+  return path.resolve(value);
+}
+
 function optionalBootstrapUsername(env) {
   const value = env.IMPORT_API_USERNAME?.trim();
   return value || null;
@@ -459,6 +477,21 @@ export function loadConfig(env = process.env, projectRoot = DEFAULT_PROJECT_ROOT
         metricsEnabled,
       bearerToken:
         metricsBearerToken,
+    },
+    fileLogging: {
+      projectName:
+        fileLogProjectName(
+          env,
+          databaseSchema,
+        ),
+      directory:
+        path.join(
+          fileLogRootDirectory(env),
+          fileLogProjectName(
+            env,
+            databaseSchema,
+          ),
+        ),
     },
     projectRoot,
     http: {
