@@ -13,11 +13,39 @@
 
 ## Новый экземпляр
 
+Основной путь — initial setup wizard:
+
 ```bash
 npm ci
+npm run setup
+```
+
+Если TLS завершается на nginx и будущий application upstream уже настроен,
+installer можно временно поднять на том же локальном port:
+
+```bash
+INSTALL_PORT=3002 \
+INSTALL_TRUST_PROXY_HOPS=1 \
+INSTALL_PUBLIC_ORIGIN=https://hist.tramlanes.ru \
+npm run setup
+```
+
+Мастер не требует заранее существующих application DB/roles: на PostgreSQL
+шаге он принимает только administrative account `postgres` и имеет отдельную
+кнопку проверки connection. После проверки следующий шаг создаёт
+`DATABASE_NAME`, runtime/migration roles, schema, PostGIS и применяет
+migrations.
+
+Подробный контракт, security model и recovery:
+[installation-wizard.md](installation-wizard.md).
+
+Ручной путь остаётся доступен для recovery/automation:
+
+```bash
 cp .env.example .env
 # заполнить .env
 npm run db:init
+npm run db:migrate
 npm start
 ```
 

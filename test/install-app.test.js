@@ -190,6 +190,8 @@ test('installer HTTP surface is hidden behind random path cookie and CSRF', asyn
               'application/json',
             'X-Install-CSRF':
               'csrf-secret',
+            Origin:
+              baseUrl,
           },
           body: '{}',
         },

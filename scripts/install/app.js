@@ -332,7 +332,7 @@ export function createInstallApp({
           );
 
         if (
-          suppliedOrigin &&
+          !suppliedOrigin ||
           suppliedOrigin !==
             expectedOrigin
         ) {

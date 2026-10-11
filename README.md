@@ -34,13 +34,39 @@ Node.js/Express + PostgreSQL/PostGIS сервер интерактивной к�
 
 ## Быстрый запуск
 
+Для нового production-инстанса рекомендуется одноразовый web-мастер:
+
 ```bash
 npm ci
-cp .env.example .env
-# заполнить .env
-npm run db:init
-npm start
+npm run setup
 ```
+
+Мастер по шагам проверяет reverse proxy/origin, подключение под PostgreSQL
+`postgres`, создаёт application DB/runtime+migration roles, устанавливает
+PostGIS и migrations, создаёт bootstrap-superuser, задаёт проект/theme/Mapbox,
+готовит logging/security deployment settings и только затем атомарно пишет
+`.env`. PostgreSQL superuser password и пароль web-admin в `.env` не
+сохраняются.
+
+При запуске выводится единственный URL вида
+`/install-<random-128-bit-suffix>/`; дополнительно используется HttpOnly
+session cookie, CSRF token, same-origin check, rate limit и TTL. Runtime-каталог
+`var/install-<suffix>/` после успешного завершения удаляется, а
+`var/install-completed.json` блокирует случайный повтор initial setup.
+
+Если nginx уже смотрит на будущий Node port, удобно запустить:
+
+```bash
+INSTALL_PORT=3002 \
+INSTALL_TRUST_PROXY_HOPS=1 \
+INSTALL_PUBLIC_ORIGIN=https://hist.example.com \
+npm run setup
+```
+
+Подробно: [docs/installation-wizard.md](docs/installation-wizard.md).
+
+Ручная установка через `.env`, `npm run db:init` и `npm run db:migrate`
+остаётся поддерживаемым recovery/advanced workflow.
 
 Для локальной PostgreSQL из `compose.yaml`:
 

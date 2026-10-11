@@ -10,6 +10,8 @@ certificates/
 
 # Generated runtime files.
 var/public-downloads/
+var/install-*/
+var/install-completed.json
 
 # Historical source snapshots are not part of the running application.
 archive/
