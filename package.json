@@ -26,7 +26,7 @@
     "setup": "node scripts/install-wizard.js"
   },
   "dependencies": {
-    "compression": "^1.8.1",
+    "compression": "^1.8.2",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "fast-xml-parser": "^5.11.1",
