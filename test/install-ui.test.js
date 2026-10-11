@@ -58,11 +58,11 @@ test('install wizard is a seven-step self-hosted modern UI', async () => {
   );
   assert.match(
     client,
-    /database/test/u,
+    /database\/test/u,
   );
   assert.match(
     client,
-    /database/provision/u,
+    /database\/provision/u,
   );
   assert.equal(
     JSON.parse(pkg)
