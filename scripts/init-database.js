@@ -717,15 +717,17 @@ async function verifyApplicationConnection(
   }
 }
 
-async function main() {
+export async function initializeDatabase(
+  env = process.env,
+) {
   const adminConnection =
-    loadAdminDatabaseConnection();
+    loadAdminDatabaseConnection(env);
   const applicationConnection =
-    loadApplicationDatabaseConnection();
+    loadApplicationDatabaseConnection(env);
   const migrationConnection =
-    loadMigrationDatabaseConnection();
+    loadMigrationDatabaseConnection(env);
   const schema =
-    loadDatabaseSchema();
+    loadDatabaseSchema(env);
 
   validateIdentifier(
     applicationConnection.user,
@@ -759,7 +761,7 @@ async function main() {
   }
 
   if (
-    process.env.NODE_ENV ===
+    env.NODE_ENV ===
       'production' &&
     migrationConnection.user ===
       applicationConnection.user
@@ -872,15 +874,32 @@ async function main() {
     );
   }
 
+  return {
+    applicationRoleStatus,
+    migrationRoleStatus,
+    databaseStatus,
+    schema,
+    postgis: verification.postgis,
+    transferredObjects,
+    runtimeRole: verification.role,
+    runtimeDatabase: verification.database,
+  };
+
+}
+
+async function main() {
+  const result =
+    await initializeDatabase();
+
   console.log(
     'Database initialization complete: ' +
-      `runtime role ${applicationRoleStatus}, ` +
-      `migration role ${migrationRoleStatus}, ` +
-      `database ${databaseStatus}, ` +
-      `schema ${schema}, ` +
-      `PostGIS ${verification.postgis}; ` +
-      `${transferredObjects} object owners normalized; ` +
-      `verified runtime as ${verification.role}.`,
+      `runtime role ${result.applicationRoleStatus}, ` +
+      `migration role ${result.migrationRoleStatus}, ` +
+      `database ${result.databaseStatus}, ` +
+      `schema ${result.schema}, ` +
+      `PostGIS ${result.postgis}; ` +
+      `${result.transferredObjects} object owners normalized; ` +
+      `verified runtime as ${result.runtimeRole}.`,
   );
 }
 
