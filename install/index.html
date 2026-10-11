@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <meta name="install-base" content="{{INSTALL_BASE}}">
+    <meta name="install-csrf" content="{{INSTALL_CSRF}}">
+    <title>DTP-Stat — первичная настройка</title>
+    <link rel="stylesheet" href="{{INSTALL_BASE}}/install.css">
+  </head>
+  <body>
+    <main class="installer-shell">
+      <aside class="installer-sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">D</div>
+          <div>
+            <strong>DTP-Stat</strong>
+            <span>Первичная настройка</span>
+          </div>
+        </div>
+
+        <ol class="step-list" id="step-list">
+          <li data-step-nav="environment"><span>1</span><b>Адрес и proxy</b></li>
+          <li data-step-nav="postgres"><span>2</span><b>PostgreSQL</b></li>
+          <li data-step-nav="database"><span>3</span><b>База приложения</b></li>
+          <li data-step-nav="administrator"><span>4</span><b>Администратор</b></li>
+          <li data-step-nav="project"><span>5</span><b>Проект</b></li>
+          <li data-step-nav="runtime"><span>6</span><b>Система</b></li>
+          <li data-step-nav="finish"><span>7</span><b>Проверка</b></li>
+        </ol>
+
+        <div class="installer-expiry">
+          <span>Одноразовая сессия</span>
+          <strong id="expiry">—</strong>
+        </div>
+      </aside>
+
+      <section class="installer-main">
+        <header class="topline">
+          <div>
+            <p class="eyebrow">INSTALLATION WIZARD</p>
+            <h1 id="step-title">Настройка нового экземпляра</h1>
+          </div>
+          <span class="status-chip" id="global-status">Подготовка…</span>
+        </header>
+
+        <div class="notice notice-info">
+          Мастер доступен только по случайному одноразовому URL. Секрет PostgreSQL
+          хранится только в памяти процесса установки и не записывается в <code>.env</code>.
+        </div>
+
+        <section class="step-panel is-active" data-step="environment">
+          <div class="step-copy">
+            <span class="step-kicker">Шаг 1 из 7</span>
+            <h2>Публичный адрес и reverse proxy</h2>
+            <p>Настраиваем origin административного интерфейса и то, как Node видит HTTPS за nginx/Apache.</p>
+          </div>
+          <form id="environment-form" class="form-grid">
+            <label class="field field-wide">
+              <span>Публичный HTTPS origin</span>
+              <input name="publicOrigin" type="url" required placeholder="https://hist.tramlanes.ru">
+              <small>Только origin, без пути. Он станет <code>ADMIN_ALLOWED_ORIGINS</code>.</small>
+            </label>
+            <label class="field">
+              <span>Node bind host</span>
+              <input name="host" value="127.0.0.1" required>
+            </label>
+            <label class="field">
+              <span>HTTP port</span>
+              <input name="httpPort" type="number" min="1" max="65535" value="3000" required>
+            </label>
+            <label class="field">
+              <span>Trusted proxy hops</span>
+              <input name="trustProxyHops" type="number" min="0" max="16" value="1" required>
+              <small>Обычно <b>1</b> для одного локального nginx.</small>
+            </label>
+            <div class="diagnostic-card field-wide">
+              <span>Как мастер видит текущий запрос</span>
+              <dl>
+                <div><dt>Origin</dt><dd id="observed-origin">—</dd></div>
+                <div><dt>HTTPS</dt><dd id="observed-secure">—</dd></div>
+                <div><dt>X-Forwarded-Proto</dt><dd id="observed-forwarded">—</dd></div>
+              </dl>
+            </div>
+            <div class="actions field-wide">
+              <button class="button button-primary" type="submit">Сохранить и продолжить</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="step-panel" data-step="postgres">
+          <div class="step-copy">
+            <span class="step-kicker">Шаг 2 из 7</span>
+            <h2>Подключение к PostgreSQL</h2>
+            <p>На этом шаге нужна только административная учётная запись <code>postgres</code>. База и роли приложения ещё могут не существовать.</p>
+          </div>
+          <form id="postgres-form" class="form-grid">
+            <label class="field">
+              <span>Host</span>
+              <input name="host" value="127.0.0.1" required>
+            </label>
+            <label class="field">
+              <span>Port</span>
+              <input name="port" type="number" min="1" max="65535" value="5432" required>
+            </label>
+            <label class="field">
+              <span>Административная БД</span>
+              <input name="database" value="postgres" required>
+            </label>
+            <label class="field">
+              <span>Пользователь</span>
+              <input value="postgres" readonly aria-readonly="true">
+            </label>
+            <label class="field field-wide">
+              <span>Пароль postgres</span>
+              <input name="password" type="password" autocomplete="new-password" required>
+              <small>Не сохраняется в итоговый <code>.env</code>.</small>
+            </label>
+            <label class="check field-wide">
+              <input name="ssl" type="checkbox">
+              <span>Использовать SSL для PostgreSQL</span>
+            </label>
+            <div class="actions field-wide">
+              <button class="button button-secondary" id="test-postgres" type="button">Проверить подключение</button>
+              <button class="button button-primary" id="postgres-next" type="button" disabled>Подключение проверено — далее</button>
+            </div>
+            <div class="result-box field-wide" id="postgres-result" hidden></div>
+          </form>
+        </section>
+
+        <section class="step-panel" data-step="database">
+          <div class="step-copy">
+            <span class="step-kicker">Шаг 3 из 7</span>
+            <h2>База, schema и роли приложения</h2>
+            <p>Мастер создаст недостающие роли и БД, установит PostGIS, применит migrations и проверит runtime privileges.</p>
+          </div>
+          <form id="database-form" class="form-grid">
+            <label class="field">
+              <span>Database name</span>
+              <input name="database" value="dtpstat" pattern="[a-z_][a-z0-9_]*" required>
+            </label>
+            <label class="field">
+              <span>Schema</span>
+              <input name="schema" value="dtpstat" pattern="[a-z_][a-z0-9_]*" required>
+            </label>
+            <label class="field">
+              <span>Runtime role</span>
+              <input name="runtimeRole" value="dtpstat_app" pattern="[a-z_][a-z0-9_]*" required>
+            </label>
+            <label class="field">
+              <span>Runtime password</span>
+              <div class="input-action"><input name="runtimePassword" type="password" required><button type="button" data-generate="runtimePassword">Сгенерировать</button></div>
+            </label>
+            <label class="field">
+              <span>Migration role</span>
+              <input name="migrationRole" value="dtpstat_migrator" pattern="[a-z_][a-z0-9_]*" required>
+            </label>
+            <label class="field">
+              <span>Migration password</span>
+              <div class="input-action"><input name="migrationPassword" type="password" required><button type="button" data-generate="migrationPassword">Сгенерировать</button></div>
+            </label>
+            <div class="actions field-wide">
+              <button class="button button-primary" type="submit">Создать и применить migrations</button>
+            </div>
+            <div class="result-box field-wide" id="database-result" hidden></div>
+          </form>
+        </section>
+
+        <section class="step-panel" data-step="administrator">
+          <div class="step-copy">
+            <span class="step-kicker">Шаг 4 из 7</span>
+            <h2>Первый администратор</h2>
+            <p>Создаётся защищённый bootstrap-superuser со всеми правами. Online Basic-auth не используется.</p>
+          </div>
+          <form id="administrator-form" class="form-grid">
+            <label class="field field-wide">
+              <span>Логин</span>
+              <input name="username" value="admin" autocomplete="username" required>
+            </label>
+            <label class="field">
+              <span>Пароль</span>
+              <input name="password" type="password" minlength="12" autocomplete="new-password" required>
+            </label>
+            <label class="field">
+              <span>Повтор пароля</span>
+              <input name="passwordConfirm" type="password" minlength="12" autocomplete="new-password" required>
+            </label>
+            <div class="actions field-wide">
+              <button class="button button-primary" type="submit">Создать администратора</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="step-panel" data-step="project">
+          <div class="step-copy">
+            <span class="step-kicker">Шаг 5 из 7</span>
+            <h2>Проект и внешний вид</h2>
+            <p>Базовое имя проекта, один из трёх preset-стилей и параметры карты.</p>
+          </div>
+          <form id="project-form" class="form-grid">
+            <label class="field field-wide">
+              <span>Название проекта</span>
+              <input name="projectName" placeholder="Трамвайные системы России" required>
+            </label>
+            <fieldset class="theme-grid field-wide">
+              <legend>Предустановленный стиль</legend>
+              <label class="theme-card"><input type="radio" name="themePreset" value="retro"><span><b>90-е</b><small>Плотный, квадратный, почти без декора.</small></span></label>
+              <label class="theme-card"><input type="radio" name="themePreset" value="classic" checked><span><b>Классический</b><small>Сдержанный базовый стиль проекта.</small></span></label>
+              <label class="theme-card"><input type="radio" name="themePreset" value="modern"><span><b>Современный</b><small>Мягкие панели и спокойные акценты.</small></span></label>
+            </fieldset>
+            <label class="field field-wide">
+              <span>Mapbox access token</span>
+              <input name="mapboxAccessToken" type="password" placeholder="pk.…">
+              <small>Сохраняется в БД проекта, а не в итоговый <code>.env</code>.</small>
+            </label>
+            <label class="field field-wide">
+              <span>Mapbox style URL</span>
+              <input name="mapboxStyleUrl" value="mapbox://styles/mapbox/streets-v12" required>
+            </label>
+            <div class="actions field-wide">
+              <button class="button button-primary" type="submit">Сохранить проект</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="step-panel" data-step="runtime">
+          <div class="step-copy">
+            <span class="step-kicker">Шаг 6 из 7</span>
+            <h2>Логи и security deployment</h2>
+            <p>Параметры файловых журналов и стабильный ключ шифрования MFA. Если ключ оставить пустым, мастер сгенерирует 32-byte base64url secret.</p>
+          </div>
+          <form id="runtime-form" class="form-grid">
+            <label class="field">
+              <span>FILE_LOG_ROOT_DIR</span>
+              <input name="fileLogRootDir" value="/var/log" required>
+            </label>
+            <label class="field">
+              <span>FILE_LOG_PROJECT_NAME</span>
+              <input name="fileLogProjectName" placeholder="dtpstat">
+            </label>
+            <label class="field field-wide">
+              <span>ADMIN_MFA_ENCRYPTION_KEY</span>
+              <input name="mfaEncryptionKey" type="password" placeholder="Сгенерировать автоматически">
+            </label>
+            <label class="field">
+              <span>Service user</span>
+              <input name="serviceUser" value="dtpstat" required>
+            </label>
+            <label class="field">
+              <span>Service group</span>
+              <input name="serviceGroup" value="dtpstat" required>
+            </label>
+            <div class="actions field-wide">
+              <button class="button button-primary" type="submit">Проверить системные параметры</button>
+            </div>
+            <div class="result-box field-wide" id="runtime-result" hidden></div>
+          </form>
+        </section>
+
+        <section class="step-panel" data-step="finish">
+          <div class="step-copy">
+            <span class="step-kicker">Шаг 7 из 7</span>
+            <h2>Финальная проверка</h2>
+            <p>Мастер проверит полный runtime config, сделает backup существующего <code>.env</code>, атомарно запишет настройки и уничтожит одноразовое состояние установки.</p>
+          </div>
+          <div class="review-grid" id="review-grid"></div>
+          <div class="notice notice-warning">
+            PostgreSQL superuser password и пароль первого администратора в <code>.env</code> не сохраняются.
+          </div>
+          <div class="actions">
+            <button class="button button-primary button-large" id="finish-install" type="button">Завершить установку</button>
+          </div>
+          <div class="completion" id="completion" hidden>
+            <div class="completion-icon">✓</div>
+            <h2>Установка завершена</h2>
+            <p>Одноразовый URL отключён. Теперь запустите обычный сервер приложения.</p>
+            <pre id="completion-command">npm start</pre>
+            <div id="completion-extra"></div>
+          </div>
+        </section>
+
+        <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+      </section>
+    </main>
+    <script type="module" src="{{INSTALL_BASE}}/install.js"></script>
+  </body>
+</html>
