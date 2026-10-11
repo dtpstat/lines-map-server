@@ -46,15 +46,15 @@ test('install wizard is a seven-step self-hosted modern UI', async () => {
   );
   assert.match(
     html,
-    /value="retro"[sS]*value="classic"[sS]*value="modern"/u,
+    /value="retro"[\s\S]*value="classic"[\s\S]*value="modern"/u,
   );
   assert.match(
     css,
-    /.installer-shell[sS]*backdrop-filter/u,
+    /\.installer-shell[\s\S]*backdrop-filter/u,
   );
   assert.match(
     css,
-    /.theme-card input:checked + span/u,
+    /\.theme-card input:checked \+ span/u,
   );
   assert.match(
     client,
@@ -71,6 +71,6 @@ test('install wizard is a seven-step self-hosted modern UI', async () => {
   );
   assert.doesNotMatch(
     html,
-    /https?://[^"]+.(?:js|css)/u,
+    /https?:\/\/[^"]+\.(?:js|css)/u,
   );
 });
