@@ -83,13 +83,17 @@ async function main() {
       1,
       65535,
     );
+  const localOnly =
+    host === '127.0.0.1' ||
+    host === '::1' ||
+    host === 'localhost';
   const trustProxyHops =
     integer(
       process.env
         .INSTALL_TRUST_PROXY_HOPS ??
         process.env
           .HTTP_TRUST_PROXY_HOPS,
-      0,
+      localOnly ? 1 : 0,
       0,
       16,
     );

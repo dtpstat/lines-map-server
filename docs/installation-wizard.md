@@ -36,7 +36,10 @@ fallback login.
 - in-memory IP rate limit;
 - TTL, по умолчанию 60 минут;
 - `Cache-Control: no-store`;
-- installer по умолчанию bind-ится только к `127.0.0.1`.
+- installer по умолчанию bind-ится только к `127.0.0.1`;
+- при loopback bind installer по умолчанию доверяет одному локальному reverse
+  proxy hop, чтобы HTTPS nginx корректно передавал protocol; при non-loopback
+  bind default остаётся 0.
 
 Runtime metadata создаётся в:
 
@@ -97,7 +100,9 @@ PostgreSQL. Admin password хранится только как scrypt hash в D
 
 При существующем `.env` мастер сначала создаёт backup
 `.env.pre-install-<timestamp>`, затем пишет новый файл atomic rename с mode
-`0600`.
+`0600`. Backup сохраняет исходное содержимое и поэтому может содержать старые
+deployment secrets; после проверки нового инстанса оператор должен удалить
+ненужный backup.
 
 ## Reverse proxy
 

@@ -453,6 +453,23 @@ $('#environment-form')
     },
   );
 
+$('#postgres-form')
+  .addEventListener(
+    'input',
+    () => {
+      postgresVerified =
+        false;
+      postgresInput =
+        null;
+      $('#postgres-next')
+        .disabled =
+        true;
+      $('#postgres-result')
+        .hidden =
+        true;
+    },
+  );
+
 $('#test-postgres')
   .addEventListener(
     'click',
