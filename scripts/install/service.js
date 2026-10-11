@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
+import { constants as fsConstants } from 'node:fs';
 import path from 'node:path';
 import {
   loadConfig,
@@ -643,7 +644,7 @@ export function createInstallService({
           root,
           projectName,
         ),
-        fs.constants?.W_OK,
+        fsConstants.W_OK,
       );
       directoryReady = true;
     } catch {
@@ -800,6 +801,14 @@ export function createInstallService({
             '.env',
           ),
         values: env,
+        removeKeys: [
+          'POSTGRES_ADMIN_DATABASE',
+          'POSTGRES_ADMIN_USER',
+          'POSTGRES_ADMIN_PASSWORD',
+          'IMPORT_API_USERNAME',
+          'IMPORT_API_PASSWORD',
+          'MAPBOX_ACCESS_TOKEN',
+        ],
       });
 
     await state.complete({

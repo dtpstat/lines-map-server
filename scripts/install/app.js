@@ -353,12 +353,27 @@ export function createInstallApp({
   app.get(
     base + '/api/state',
     (
-      _request,
+      request,
       response,
     ) => {
-      response.json(
-        service.state(),
-      );
+      response.json({
+        state:
+          service.state(),
+        observed: {
+          origin:
+            requestOrigin(
+              request,
+            ),
+          secure:
+            request.secure ===
+            true,
+          forwardedProto:
+            request.get(
+              'x-forwarded-proto',
+            ) ??
+            null,
+        },
+      });
     },
   );
 

@@ -63,6 +63,7 @@ export function renderManagedEnvironment(
 export async function updateEnvironmentFile({
   filePath,
   values,
+  removeKeys = [],
   now = () => Date.now(),
 }) {
   let existing = '';
@@ -80,9 +81,10 @@ export async function updateEnvironmentFile({
   }
 
   const keys =
-    new Set(
-      Object.keys(values),
-    );
+    new Set([
+      ...Object.keys(values),
+      ...removeKeys,
+    ]);
   const retained =
     existing
       .split(/\r?\n/u)
@@ -171,6 +173,10 @@ export async function updateEnvironmentFile({
   return {
     backupPath,
     keys:
-      [...keys].sort(),
+      Object.keys(values)
+        .sort(),
+    removedKeys:
+      [...removeKeys]
+        .sort(),
   };
 }
