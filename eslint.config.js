@@ -20,7 +20,7 @@ export default [
     },
   },
   {
-    files: ['public/**/*.js', 'admin/**/*.js'],
+    files: ['public/**/*.js', 'admin/**/*.js', 'install/**/*.js'],
     languageOptions: {
       globals: globals.browser,
     },
